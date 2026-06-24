@@ -1,3 +1,20 @@
 spring:
   application:
     name: oficina-mecanica-api
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/oficinamecanicadb
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+kind: Application
