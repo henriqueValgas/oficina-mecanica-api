@@ -18,6 +18,17 @@ public class ClienteMapper {
         return cliente;
     }
 
+    public static Cliente updateEntity(Integer id, ClienteRequestDto request){
+
+        Cliente cliente = new Cliente();
+
+        cliente.setNome(request.nome());
+        cliente.setTelefone(request.telefone());
+        cliente.setEmail(request.email());
+
+        return cliente;
+    }
+
     public static ClienteResponseDTO toDTO(Cliente cliente) {
         return  new ClienteResponseDTO(
                 cliente.getId(),
