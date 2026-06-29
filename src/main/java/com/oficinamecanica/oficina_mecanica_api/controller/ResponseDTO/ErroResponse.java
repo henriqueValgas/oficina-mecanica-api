@@ -2,7 +2,7 @@ package com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO;
 
 import java.time.LocalDateTime;
 
-public record ErroReponse(
+public record ErroResponse(
         LocalDateTime time,
         Integer status,
         String erro,

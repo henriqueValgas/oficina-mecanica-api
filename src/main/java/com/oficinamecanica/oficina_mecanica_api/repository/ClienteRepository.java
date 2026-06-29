@@ -10,5 +10,6 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer>, JpaS
 
     Optional<Cliente> findByCpf(String cpf);
 
-    void deleteByCpf(String cpf);
+    boolean existsByCpf(String cpf);
+
 }

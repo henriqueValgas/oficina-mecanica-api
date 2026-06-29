@@ -14,6 +14,6 @@ public class ClienteSpecification {
 
     public static Specification<Cliente> cpfIgual(String cpf){
         return ((root, query, cb) -> cpf == null ? null :
-                cb.equal(root.get("cpf"),cpf));
+                cb.equal(root.get("cpf"),cpf.trim()));
     }
 }

@@ -1,6 +1,6 @@
 package com.oficinamecanica.oficina_mecanica_api.exceptions;
 
-import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.ErroReponse;
+import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.ErroResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErroReponse> tratarErroGenerico(
+    public ResponseEntity<ErroResponse> tratarErroGenerico(
         Exception ex, HttpServletRequest request
     ){
         return criaRespostaErro(
@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(RegistroNaoEncontradoException.class)
-    public ResponseEntity<ErroReponse> tratarRegistroNaoEncontradoException(
+    public ResponseEntity<ErroResponse> tratarRegistroNaoEncontradoException(
             RegistroNaoEncontradoException ex, HttpServletRequest request){
 
         return criaRespostaErro(
@@ -36,13 +36,23 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(RegistroDuplicadoException.class)
+    public ResponseEntity<ErroResponse> tratarRegistroDuplicadoException(
+            RegistroDuplicadoException ex, HttpServletRequest request){
+        return criaRespostaErro(
+                HttpStatus.CONFLICT,
+                "Registro duplicado",
+                ex.getMessage(),
+                request
+        );
+    }
 
-    private ResponseEntity<ErroReponse> criaRespostaErro(
+    private ResponseEntity<ErroResponse> criaRespostaErro(
             HttpStatus status,
             String erro,
             String mensagem,
             HttpServletRequest request) {
-        ErroReponse response = new ErroReponse(
+        ErroResponse response = new ErroResponse(
                 LocalDateTime.now(),
                 status.value(),
                 erro,

@@ -19,9 +19,9 @@ public class ClienteController implements GenericController {
     private final ClienteService clienteService;
 
     @PostMapping()
-    public ResponseEntity<ClienteResponseDTO> cadastrarCliente(@Valid @RequestBody ClienteRequestDto request) {
+    public ResponseEntity<ClienteResponseDTO> saveCliente(@Valid @RequestBody ClienteRequestDto request) {
 
-        ClienteResponseDTO response = clienteService.salvar(request);
+        ClienteResponseDTO response = clienteService.create(request);
 
         URI uri = gerarHeaderLocationUri(response.id());
 
@@ -29,26 +29,27 @@ public class ClienteController implements GenericController {
     }
 
     @PutMapping("{cpf}")
-    public ResponseEntity<ClienteResponseDTO> alterarCliente(@PathVariable String cpf, @Valid @RequestBody ClienteRequestDto request) {
+    public ResponseEntity<ClienteResponseDTO> updateCliente(@PathVariable String cpf, @Valid @RequestBody ClienteRequestDto request) {
 
         ClienteResponseDTO response = clienteService.update(cpf, request);
-
-        URI uri = gerarHeaderLocationUri(response.id());
 
         return ResponseEntity.ok(response);
     }
 
-    public ResponseEntity<Void> delete(@RequestParam String cpf) {
+    //modificar o delete de cliente nao usar o cpf para excluir e usar o softdelete
+    @DeleteMapping
+    public ResponseEntity<Void> delete(@PathVariable String cpf) {
 
-        clienteService.deletePorCpf(cpf);
+        clienteService.deleteByCpf(cpf);
 
         return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<List<ClienteResponseDTO>> listarClientes(
-            @Valid @RequestParam String nome, String cpf){
+    @GetMapping
+    public ResponseEntity<List<ClienteResponseDTO>> listClientes(
+           @RequestParam(required = false) String nome,
+           @RequestParam(required = false) String cpf) {
 
-        return ResponseEntity.ok(clienteService.listarClientes(nome,cpf));
+        return ResponseEntity.ok(clienteService.listClientes(nome, cpf));
     }
-
 }
