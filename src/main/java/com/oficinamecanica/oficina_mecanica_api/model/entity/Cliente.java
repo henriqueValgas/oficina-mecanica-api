@@ -1,10 +1,16 @@
-package com.oficinamecanica.oficina_mecanica_api.model;
+package com.oficinamecanica.oficina_mecanica_api.model.entity;
 
+import com.oficinamecanica.oficina_mecanica_api.model.base.Auditable;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +18,8 @@ import java.util.List;
 @Table(name = "clientes")
 @Getter
 @Setter
-@RequiredArgsConstructor
-public class Cliente {
+@NoArgsConstructor
+public class Cliente extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +38,7 @@ public class Cliente {
     @Column(name = "email")
     private String email;
 
-    @OneToOne(cascade =  CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")
     private Endereco endereco;
 

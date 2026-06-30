@@ -1,6 +1,6 @@
 package com.oficinamecanica.oficina_mecanica_api.specification;
 
-import com.oficinamecanica.oficina_mecanica_api.model.Cliente;
+import com.oficinamecanica.oficina_mecanica_api.model.entity.Cliente;
 import org.springframework.data.jpa.domain.Specification;
 
 public class ClienteSpecification {

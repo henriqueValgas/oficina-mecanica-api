@@ -5,7 +5,7 @@ import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.ClienteRe
 import com.oficinamecanica.oficina_mecanica_api.exceptions.RegistroDuplicadoException;
 import com.oficinamecanica.oficina_mecanica_api.exceptions.RegistroNaoEncontradoException;
 import com.oficinamecanica.oficina_mecanica_api.mapper.ClienteMapper;
-import com.oficinamecanica.oficina_mecanica_api.model.Cliente;
+import com.oficinamecanica.oficina_mecanica_api.model.entity.Cliente;
 import com.oficinamecanica.oficina_mecanica_api.repository.ClienteRepository;
 import com.oficinamecanica.oficina_mecanica_api.specification.ClienteSpecification;
 import lombok.RequiredArgsConstructor;

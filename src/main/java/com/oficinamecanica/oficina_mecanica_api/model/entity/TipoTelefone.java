@@ -1,4 +1,4 @@
-package com.oficinamecanica.oficina_mecanica_api.model;
+package com.oficinamecanica.oficina_mecanica_api.model.entity;
 
 public enum TipoTelefone {
 
