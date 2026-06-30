@@ -19,30 +19,27 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClienteService {
 
+    private final ClienteMapper clienteMapper;
     private final ClienteRepository repository;
 
     @Transactional
     public ClienteResponseDTO create(ClienteRequestDto request) {
-        Cliente cliente = ClienteMapper.toEntity(request);
+        Cliente cliente = clienteMapper.toEntity(request);
 
         verificaClienteDuplicado(cliente.getCpf());
 
         Cliente saved = repository.save(cliente);
 
-        return ClienteMapper.toDTO(saved);
+        return clienteMapper.toDTO(saved);
     }
 
     public ClienteResponseDTO update(String cpf, ClienteRequestDto request) {
 
         Cliente cliente = buscaClientePorCpf(cpf);
 
-        cliente.setNome(request.nome());
-        cliente.setTelefone(request.telefone());
-        cliente.setEmail(request.email());
+        clienteMapper.updateEntityFromDTO(request, cliente);
 
-        Cliente update = repository.save(cliente);
-
-        return ClienteMapper.toDTO(update);
+        return clienteMapper.toDTO(cliente);
     }
 
 
@@ -59,7 +56,7 @@ public class ClienteService {
                 .where(ClienteSpecification.nomeContem(nome)
                         .and(ClienteSpecification.cpfIgual(cpf)));
 
-        return repository.findAll(spec).stream().map(ClienteMapper::toDTO).toList();
+        return repository.findAll(spec).stream().map(clienteMapper::toDTO).toList();
     }
 
     private Cliente buscaClientePorCpf(String cpf) {
@@ -68,9 +65,9 @@ public class ClienteService {
     }
 
     public void verificaClienteDuplicado(String cpf) {
-         if (repository.existsByCpf(cpf)){
-             throw new RegistroDuplicadoException("Cliente existente");
-         }
+        if (repository.existsByCpf(cpf)) {
+            throw new RegistroDuplicadoException("Cliente existente");
+        }
     }
 }
 

@@ -3,39 +3,18 @@ package com.oficinamecanica.oficina_mecanica_api.mapper;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.ClienteRequestDto;
 import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.ClienteResponseDTO;
 import com.oficinamecanica.oficina_mecanica_api.model.Cliente;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
-public class ClienteMapper {
 
+@Mapper(componentModel = "spring")
+public interface ClienteMapper {
 
-    public static Cliente toEntity(ClienteRequestDto request) {
-        Cliente cliente = new Cliente();
+    @Mapping(target = "id", ignore = true)
+    Cliente toEntity(ClienteRequestDto request);
 
-        cliente.setNome(request.nome());
-        cliente.setCpf(request.cpf());
-        cliente.setTelefone(request.telefone());
-        cliente.setEmail(request.email());
+    ClienteResponseDTO toDTO(Cliente cliente);
 
-        return cliente;
-    }
-
-    public static Cliente updateEntity(Integer id, ClienteRequestDto request){
-
-        Cliente cliente = new Cliente();
-
-        cliente.setNome(request.nome());
-        cliente.setTelefone(request.telefone());
-        cliente.setEmail(request.email());
-
-        return cliente;
-    }
-
-    public static ClienteResponseDTO toDTO(Cliente cliente) {
-        return  new ClienteResponseDTO(
-                cliente.getId(),
-                cliente.getNome(),
-                cliente.getCpf(),
-                cliente.getTelefone(),
-                cliente.getEmail()
-        );
-    }
+    void updateEntityFromDTO(ClienteRequestDto request, @MappingTarget Cliente cliente);
 }
