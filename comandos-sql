@@ -1,0 +1,48 @@
+create database oficinamecanicadb;
+
+CREATE TABLE cliente (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+
+    nome VARCHAR(150) NOT NULL,
+    cpf VARCHAR(14) NOT NULL UNIQUE,
+    email VARCHAR(150),
+    ativo BOOLEAN NOT NULL DEFAULT TRUE,
+
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP,
+
+    endereco_id BIGINT UNIQUE,
+
+    CONSTRAINT fk_cliente_endereco
+        FOREIGN KEY (endereco_id)
+        REFERENCES endereco(id)
+);
+
+CREATE TABLE endereco (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+
+    rua VARCHAR(150),
+    numero VARCHAR(20),
+    cidade VARCHAR(100),
+    estado VARCHAR(50),
+    cep VARCHAR(20),
+
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP
+);
+
+CREATE TABLE telefone (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+
+    numero VARCHAR(20) NOT NULL,
+    tipo VARCHAR(30), -- ex: WHATSAPP, FIXO, CELULAR
+
+    cliente_id BIGINT NOT NULL,
+
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+
+    CONSTRAINT fk_telefone_cliente
+        FOREIGN KEY (cliente_id)
+        REFERENCES cliente(id)
+);
