@@ -1,7 +1,11 @@
 package com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
+
+import java.util.List;
 
 public record ClienteRequestDto(
         @NotBlank(message = "Nome é obrigatório")
@@ -11,10 +15,13 @@ public record ClienteRequestDto(
         @CPF
         String cpf,
 
-        @NotBlank(message = "Telefone é obrigatório")
-        String telefone,
+        @Email
+        String email,
 
-        String email
-)
-{
+        @Valid
+        List<TelefoneRequestDTO> telefones,
+
+        @Valid
+        EnderecoRequestDTO endereco
+){
 }

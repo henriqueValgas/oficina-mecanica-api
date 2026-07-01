@@ -4,7 +4,6 @@ import com.oficinamecanica.oficina_mecanica_api.model.base.Auditable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity

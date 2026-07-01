@@ -24,6 +24,7 @@ public class ClienteService {
 
     @Transactional
     public ClienteResponseDTO create(ClienteRequestDto request) {
+
         Cliente cliente = clienteMapper.toEntity(request);
 
         verificaClienteDuplicado(cliente.getCpf());
@@ -42,7 +43,6 @@ public class ClienteService {
         return clienteMapper.toDTO(cliente);
     }
 
-
     public void deleteByCpf(String cpf) {
 
         Cliente cliente = buscaClientePorCpf(cpf);
@@ -60,11 +60,13 @@ public class ClienteService {
     }
 
     private Cliente buscaClientePorCpf(String cpf) {
+
         return repository.findByCpf(cpf).orElseThrow(() ->
                 new RegistroNaoEncontradoException("Cliente não localizado ou não cadastrado"));
     }
 
-    public void verificaClienteDuplicado(String cpf) {
+    private void verificaClienteDuplicado(String cpf) {
+
         if (repository.existsByCpf(cpf)) {
             throw new RegistroDuplicadoException("Cliente existente");
         }
