@@ -26,7 +26,6 @@ public class Cliente extends Auditable {
     @Column(name = "cpf")
     private String cpf;
 
-    @Column(name = "telefone")
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Telefone> telefones = new ArrayList<>();
 
@@ -36,5 +35,13 @@ public class Cliente extends Auditable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")
     private Endereco endereco;
+
+    @Column(nullable = false)
+    private boolean ativo = true;
+
+    public void addTelefone(Telefone telefone) {
+        telefones.add(telefone);
+        telefone.setCliente(this);
+    }
 
 }

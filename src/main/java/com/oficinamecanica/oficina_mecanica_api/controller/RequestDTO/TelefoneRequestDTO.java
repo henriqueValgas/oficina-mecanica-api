@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 public record TelefoneRequestDTO(
 
         @NotBlank
-        String telefone,
-        TipoTelefone tipotelefone
+        String numero,
+        TipoTelefone tipo
 ) {
 }

@@ -5,6 +5,11 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class ClienteSpecification {
 
+    public static Specification<Cliente> ativo() {
+        return (root, query, cb) ->
+                cb.isTrue(root.get("ativo"));
+    }
+
     public static Specification<Cliente> nomeContem(String nome){
 
         return (root, query, cb) -> nome == null ? null :

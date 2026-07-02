@@ -1,25 +1,25 @@
 package com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import org.springframework.web.bind.annotation.PathVariable;
 
 public record EnderecoRequestDTO(
 
-        @NotBlank
+        @Pattern(
+                regexp = "^\\d{5}-?\\d{3}$",
+                message = "CEP inválido"
+        )
         String cep,
 
-        @NotBlank
         String rua,
 
-        @NotBlank
         String numero,
 
-        @NotBlank
         String bairro,
 
-        @NotBlank
         String cidade,
 
-        @NotBlank
         String estado
 )
 {

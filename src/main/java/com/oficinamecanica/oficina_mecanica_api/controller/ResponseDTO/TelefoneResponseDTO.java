@@ -4,7 +4,7 @@ import com.oficinamecanica.oficina_mecanica_api.model.entity.TipoTelefone;
 
 public record TelefoneResponseDTO(
 
-        String telefone,
-        TipoTelefone tipoTelefone
+        String numero,
+        TipoTelefone tipo
 ) {
 }
