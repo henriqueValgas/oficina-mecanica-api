@@ -23,7 +23,7 @@ public class Telefone extends Auditable {
     private TipoTelefone tipo;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
 }

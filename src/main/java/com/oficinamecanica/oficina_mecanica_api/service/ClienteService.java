@@ -37,6 +37,8 @@ public class ClienteService {
 
         verificaClienteDuplicado(cliente.getCpf());
 
+        cliente.setTelefones(new ArrayList<>());
+
         Endereco endereco = buildEndereco(request.endereco());
         cliente.setEndereco(endereco);
 
@@ -119,7 +121,9 @@ public class ClienteService {
 
             ViaCepResponseDTO viaCep = viaCepService.getViaCep(cep);
             endereco.setRua(viaCep.logradouro());
+
             endereco.setNumero(request.numero());
+
             endereco.setCep(viaCep.cep());
             endereco.setBairro(viaCep.bairro());
             endereco.setCidade(viaCep.localidade());

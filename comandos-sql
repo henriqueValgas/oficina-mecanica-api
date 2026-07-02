@@ -8,8 +8,8 @@ CREATE TABLE cliente (
     email VARCHAR(150),
     ativo BOOLEAN NOT NULL DEFAULT TRUE,
 
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP,
+    created_date TIMESTAMP NOT NULL,
+    updated_date TIMESTAMP,
 
     endereco_id BIGINT UNIQUE,
 
@@ -23,12 +23,13 @@ CREATE TABLE endereco (
 
     rua VARCHAR(150),
     numero VARCHAR(20),
+    bairro VARCHAR(50),
     cidade VARCHAR(100),
     estado VARCHAR(50),
     cep VARCHAR(20),
 
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP
+    created_date TIMESTAMP,
+    updated_date TIMESTAMP
 );
 
 CREATE TABLE telefone (
@@ -39,8 +40,8 @@ CREATE TABLE telefone (
 
     cliente_id BIGINT NOT NULL,
 
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP,
+    created_date TIMESTAMP,
+    updated_date TIMESTAMP,
 
     CONSTRAINT fk_telefone_cliente
         FOREIGN KEY (cliente_id)
