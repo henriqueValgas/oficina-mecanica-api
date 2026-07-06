@@ -30,36 +30,6 @@ public class ClienteService {
     private final ClienteRepository repository;
     private final ViaCepService viaCepService;
 
-    @Transactional
-    public ClienteResponseDTO create(ClienteRequestDto request) {
-
-        Cliente cliente = clienteMapper.toEntity(request);
-
-        verificaClienteDuplicado(cliente.getCpf());
-
-        cliente.setTelefones(new ArrayList<>());
-
-        Endereco endereco = buildEndereco(request.endereco());
-        cliente.setEndereco(endereco);
-
-        for (Telefone telefone : buildTelefones(request.telefones())) {
-            cliente.addTelefone(telefone);
-        }
-
-        Cliente saved = repository.save(cliente);
-
-        return clienteMapper.toDTO(saved);
-    }
-
-    @Transactional
-    public ClienteResponseDTO update(String cpf, ClienteRequestDto request) {
-
-        Cliente cliente = buscaClientePorCpf(cpf);
-
-        clienteMapper.updateEntityFromDTO(request, cliente);
-
-        return clienteMapper.toDTO(cliente);
-    }
 
     @Transactional
     public void deleteByCpf(String cpf) {
@@ -69,27 +39,13 @@ public class ClienteService {
         cliente.setAtivo(false);
     }
 
-    public List<ClienteResponseDTO> listClientes(String nome, String cpf) {
-
-        Specification<Cliente> spec = Specification
-                .where(ClienteSpecification.ativo()
-                        .and(ClienteSpecification.nomeContem(nome))
-                        .and(ClienteSpecification.cpfIgual(cpf)));
-
-        return repository.findAll(spec).stream().map(clienteMapper::toDTO).toList();
-    }
-
     private Cliente buscaClientePorCpf(String cpf) {
 
-        return repository.findByCpfAndAtivoTrue(cpf).orElseThrow(() ->
-                new RegistroNaoEncontradoException("Cliente não localizado ou não cadastrado"));
+        return null;
     }
 
     private void verificaClienteDuplicado(String cpf) {
 
-        if (repository.existsByCpf(cpf)) {
-            throw new RegistroDuplicadoException("Cliente existente");
-        }
     }
 
     private Telefone buildTelefone(TelefoneRequestDTO request) {
@@ -142,6 +98,5 @@ public class ClienteService {
 
         return endereco;
     }
-
 }
 
