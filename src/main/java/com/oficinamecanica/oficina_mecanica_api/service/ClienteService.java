@@ -1,21 +1,14 @@
 package com.oficinamecanica.oficina_mecanica_api.service;
 
-import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.ClienteRequestDto;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.EnderecoRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.TelefoneRequestDTO;
-import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.ClienteResponseDTO;
-import com.oficinamecanica.oficina_mecanica_api.exceptions.RegistroDuplicadoException;
-import com.oficinamecanica.oficina_mecanica_api.exceptions.RegistroNaoEncontradoException;
 import com.oficinamecanica.oficina_mecanica_api.integration.viacep.ViaCepResponseDTO;
 import com.oficinamecanica.oficina_mecanica_api.integration.viacep.ViaCepService;
-import com.oficinamecanica.oficina_mecanica_api.mapper.ClienteMapper;
 import com.oficinamecanica.oficina_mecanica_api.model.entity.Cliente;
 import com.oficinamecanica.oficina_mecanica_api.model.entity.Endereco;
 import com.oficinamecanica.oficina_mecanica_api.model.entity.Telefone;
 import com.oficinamecanica.oficina_mecanica_api.repository.ClienteRepository;
-import com.oficinamecanica.oficina_mecanica_api.specification.ClienteSpecification;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClienteService {
 
-    private final ClienteMapper clienteMapper;
     private final ClienteRepository repository;
     private final ViaCepService viaCepService;
 

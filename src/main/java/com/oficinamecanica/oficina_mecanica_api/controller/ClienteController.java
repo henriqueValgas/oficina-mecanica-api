@@ -1,15 +1,12 @@
 package com.oficinamecanica.oficina_mecanica_api.controller;
 
-import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.ClienteRequestDto;
-import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.ClienteResponseDTO;
 import com.oficinamecanica.oficina_mecanica_api.service.ClienteService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/clientes")

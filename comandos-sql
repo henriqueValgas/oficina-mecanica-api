@@ -3,8 +3,6 @@ create database oficinamecanicadb;
 CREATE TABLE cliente (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
 
-    nome VARCHAR(150) NOT NULL,
-    cpf VARCHAR(14) NOT NULL UNIQUE,
     email VARCHAR(150),
     ativo BOOLEAN NOT NULL DEFAULT TRUE,
 
@@ -16,6 +14,30 @@ CREATE TABLE cliente (
     CONSTRAINT fk_cliente_endereco
         FOREIGN KEY (endereco_id)
         REFERENCES endereco(id)
+);
+
+CREATE TABLE pessoa_fisica (
+	id BIGINT PRIMARY KEY,
+
+    nome VARCHAR(150) NOT NULL,
+    cpf VARCHAR(14) NOT NULL UNIQUE,
+
+    CONSTRAINT fk_pessoa_fisica_cliente
+		FOREIGN KEY (id)
+        REFERENCES cliente(id)
+);
+
+CREATE TABLE pessoa_juridica (
+	id BIGINT PRIMARY KEY,
+
+    razao_social VARCHAR(150) NOT NULL,
+    nome_fantasia VARCHAR(150) NOT NULL,
+    cnpj VARCHAR(18) NOT NULL UNIQUE,
+    observacao VARCHAR(1000),
+
+    CONSTRAINT fk_pessoa_juridica_cliente
+		FOREIGN KEY (id)
+        REFERENCES cliente(id)
 );
 
 CREATE TABLE endereco (

@@ -1,8 +1,6 @@
 package com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import org.springframework.web.bind.annotation.PathVariable;
 
 public record EnderecoRequestDTO(
 
