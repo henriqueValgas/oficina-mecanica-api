@@ -17,10 +17,10 @@ public class PessoaFisica extends Cliente {
     @Id
     private Long id;
 
-    @Column(name = "nome")
+    @Column(name = "nome", nullable = false)
     private String nome;
 
-    @Column(name = "cpf")
+    @Column(name = "cpf", nullable = false, unique = true)
     private String cpf;
 
 }

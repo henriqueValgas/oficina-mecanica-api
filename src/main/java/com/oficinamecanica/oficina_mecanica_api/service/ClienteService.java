@@ -4,13 +4,11 @@ import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.EnderecoRe
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.TelefoneRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.integration.viacep.ViaCepResponseDTO;
 import com.oficinamecanica.oficina_mecanica_api.integration.viacep.ViaCepService;
-import com.oficinamecanica.oficina_mecanica_api.model.entity.Cliente;
 import com.oficinamecanica.oficina_mecanica_api.model.entity.Endereco;
 import com.oficinamecanica.oficina_mecanica_api.model.entity.Telefone;
 import com.oficinamecanica.oficina_mecanica_api.repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,22 +21,6 @@ public class ClienteService {
     private final ViaCepService viaCepService;
 
 
-    @Transactional
-    public void deleteByCpf(String cpf) {
-
-        Cliente cliente = buscaClientePorCpf(cpf);
-
-        cliente.setAtivo(false);
-    }
-
-    private Cliente buscaClientePorCpf(String cpf) {
-
-        return null;
-    }
-
-    private void verificaClienteDuplicado(String cpf) {
-
-    }
 
     private Telefone buildTelefone(TelefoneRequestDTO request) {
 
