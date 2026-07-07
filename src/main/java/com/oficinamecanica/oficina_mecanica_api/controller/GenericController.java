@@ -6,7 +6,7 @@ import java.net.URI;
 
 public interface GenericController {
 
-    default URI gerarHeaderLocationUri(int id) {
+    default URI gerarHeaderLocationUri(Long id) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequestUri()
                 .path("/{id}")

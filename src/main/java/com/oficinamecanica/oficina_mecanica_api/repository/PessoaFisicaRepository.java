@@ -9,7 +9,9 @@ public interface PessoaFisicaRepository extends JpaRepository<PessoaFisica, Inte
 
     Optional<PessoaFisica> existsById(Long id);
 
+    Optional<PessoaFisica> findByIdAndAtivoTrue(Long id);
+
     Optional<PessoaFisica> findByCpfAndAtivoTrue(String cpf);
 
-    Optional<PessoaFisica> findByCpf(String cpf);
+    boolean existsByCpf(String cpf);
 }

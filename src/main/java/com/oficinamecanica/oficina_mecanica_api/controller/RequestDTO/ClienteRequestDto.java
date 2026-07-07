@@ -10,10 +10,13 @@ public record ClienteRequestDto(
         @Email
         String email,
 
+        TelefoneRequestDTO telefone,
+
         @Valid
         List<TelefoneRequestDTO> telefones,
 
         @Valid
         EnderecoRequestDTO endereco
-){
+)
+{
 }

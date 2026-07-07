@@ -22,7 +22,7 @@ public class ClienteService {
 
 
 
-    private Telefone buildTelefone(TelefoneRequestDTO request) {
+    public Telefone buildTelefone(TelefoneRequestDTO request) {
 
         Telefone telefone = new Telefone();
 
@@ -32,7 +32,7 @@ public class ClienteService {
         return telefone;
     }
 
-    private List<Telefone> buildTelefones(List<TelefoneRequestDTO> request) {
+    public List<Telefone> buildTelefones(List<TelefoneRequestDTO> request) {
 
         List<Telefone> telefones = new ArrayList<>();
 
@@ -42,7 +42,7 @@ public class ClienteService {
         return telefones;
     }
 
-    private Endereco buildEndereco(EnderecoRequestDTO request) {
+    public Endereco buildEndereco(EnderecoRequestDTO request) {
 
         String cep = request.cep();
         Endereco endereco = new Endereco();
