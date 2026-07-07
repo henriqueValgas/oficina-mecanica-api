@@ -4,9 +4,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
-public interface GenericController {
+public interface ControllerUriSupport {
 
-    default URI gerarHeaderLocationUri(Long id) {
+    default URI buildLocationUri(Long id) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequestUri()
                 .path("/{id}")

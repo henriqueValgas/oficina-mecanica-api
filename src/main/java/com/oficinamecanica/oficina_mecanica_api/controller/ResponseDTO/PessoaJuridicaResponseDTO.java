@@ -5,7 +5,7 @@ public record PessoaJuridicaResponseDTO(
         String cnpj,
         String razaosocial,
         String nomefantasia,
-        String obsevacao,
-        ClienteResponseDTO cliente
+        String obsevacao
+
 ) {
 }

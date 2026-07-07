@@ -4,10 +4,13 @@ import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.ErroRespo
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -20,6 +23,27 @@ public class GlobalExceptionHandler {
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "ocorreu um erro inexperado",
                 ex.getMessage(),
+                request
+        );
+    }
+
+    // captura erros de validacao global
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErroResponse> tratarErroValidacao(
+            MethodArgumentNotValidException ex,
+            HttpServletRequest request
+    )
+    {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(erro ->
+                        errors.put(
+                                erro.getField(),
+                                erro.getDefaultMessage()));
+
+        return criaRespostaErro(
+                HttpStatus.BAD_REQUEST,
+                "Erro validação",
+                errors,
                 request
         );
     }
@@ -50,7 +74,7 @@ public class GlobalExceptionHandler {
     private ResponseEntity<ErroResponse> criaRespostaErro(
             HttpStatus status,
             String erro,
-            String mensagem,
+            Object mensagem,
             HttpServletRequest request) {
         ErroResponse response = new ErroResponse(
                 LocalDateTime.now(),

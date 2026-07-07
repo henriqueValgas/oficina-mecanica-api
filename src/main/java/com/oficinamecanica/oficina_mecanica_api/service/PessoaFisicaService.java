@@ -1,6 +1,9 @@
 package com.oficinamecanica.oficina_mecanica_api.service;
 
-import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.PessoaFisicaRequestDTO;
+import com.oficinamecanica.oficina_mecanica_api.builder.ClienteBuilder;
+import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.PessoaFisicaCreateRequestDTO;
+import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.PessoaFisicaUpdateRequestDTO;
+import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.TelefoneRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.PessoaFisicaResponseDTO;
 import com.oficinamecanica.oficina_mecanica_api.exceptions.RegistroDuplicadoException;
 import com.oficinamecanica.oficina_mecanica_api.exceptions.RegistroNaoEncontradoException;
@@ -13,20 +16,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class PessoaFisicaService {
 
-    private final ClienteService clienteService;
+    private final ClienteBuilder clienteBuilder;
     private final PessoaFisicaRepository repository;
     private final PessoaFisicaMapper pessoaFisicaMapper;
 
     @Transactional
-    public PessoaFisicaResponseDTO salvarPessoaFisica(PessoaFisicaRequestDTO request) {
-
+    public PessoaFisicaResponseDTO salvarPessoaFisica(PessoaFisicaCreateRequestDTO request) {
 
         PessoaFisica pessoaFisica = pessoaFisicaMapper.toEntity(request);
 
@@ -34,14 +35,41 @@ public class PessoaFisicaService {
             throw new RegistroDuplicadoException("Cliente ja possui cadastro");
         }
 
-        Endereco endereco = clienteService.buildEndereco(request.endereco());
+        Endereco endereco = clienteBuilder.buildEndereco(request.endereco());
         pessoaFisica.setEndereco(endereco);
 
-        List<Telefone> telefones = new ArrayList<Telefone>();
-
-        telefones = clienteService.buildTelefones(request.telefones());
+        List<Telefone> telefones = clienteBuilder.buildTelefones(request.telefones());
         telefones.forEach(pessoaFisica::addTelefone);
 
+        repository.save(pessoaFisica);
+
+        return pessoaFisicaMapper.toDTO(pessoaFisica);
+    }
+
+    @Transactional
+    public PessoaFisicaResponseDTO atualizaPessoaFisica(Long id, PessoaFisicaUpdateRequestDTO request) {
+
+        PessoaFisica pessoaFisica = buscaClienteId(id);
+
+        pessoaFisicaMapper.toUpdate(request, pessoaFisica);
+
+        if (request.endereco() != null) {
+            clienteBuilder.updateEndereco(request.endereco(), pessoaFisica.getEndereco());
+        }
+
+        if (request.telefones() != null) {
+            pessoaFisica.getTelefones().clear();
+
+            for (TelefoneRequestDTO telefoneRequestDTO : request.telefones()) {
+                Telefone telefone = new Telefone();
+
+                telefone.setNumero(telefoneRequestDTO.numero());
+                telefone.setTipo(telefoneRequestDTO.tipo());
+                telefone.setCliente(pessoaFisica);
+
+                pessoaFisica.getTelefones().add(telefone);
+            }
+        }
         repository.save(pessoaFisica);
 
         return pessoaFisicaMapper.toDTO(pessoaFisica);
@@ -71,12 +99,27 @@ public class PessoaFisicaService {
 
     private PessoaFisica buscaClientePorCpfEAtivo(String cpf) {
 
-        return repository.findByCpfAndAtivoTrue(cpf).orElseThrow(() -> new RegistroNaoEncontradoException("Cliente não encontrado"));
+        return repository.findByCpfAndAtivoTrue(cpf)
+                .orElseThrow(() -> new RegistroNaoEncontradoException("Cliente não encontrado"));
     }
 
     private PessoaFisica buscaClienteId(Long id) {
 
-        return repository.findByIdAndAtivoTrue(id).orElseThrow(()-> new RegistroNaoEncontradoException("Cliente não localizado"));
+        return repository.findByIdAndAtivoTrue(id)
+                .orElseThrow(() -> new RegistroNaoEncontradoException("Cliente não encontrado"));
     }
 
+    @Transactional(readOnly = true)
+    public List<PessoaFisicaResponseDTO> listarPessoaFisicaAtiva() {
+
+        List<PessoaFisica> listaPessoas = repository.findAllByAtivoTrue();
+        return listaPessoas.stream().map(pessoaFisicaMapper::toDTO).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<PessoaFisicaResponseDTO> listarPessoaFisicaInativa() {
+
+        List<PessoaFisica> listaInativas = repository.findAllByAtivoFalse();
+        return listaInativas.stream().map(pessoaFisicaMapper::toDTO).toList();
+    }
 }

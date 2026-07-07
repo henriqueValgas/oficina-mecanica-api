@@ -1,6 +1,6 @@
 package com.oficinamecanica.oficina_mecanica_api.controller;
 
-import com.oficinamecanica.oficina_mecanica_api.service.ClienteService;
+import com.oficinamecanica.oficina_mecanica_api.builder.ClienteBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,11 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/clientes")
 @RequiredArgsConstructor
-public class ClienteController implements GenericController {
+public class ClienteController implements ControllerUriSupport {
 
-    private final ClienteService clienteService;
-
-
-
+    private final ClienteBuilder clienteBuilder;
 
 }

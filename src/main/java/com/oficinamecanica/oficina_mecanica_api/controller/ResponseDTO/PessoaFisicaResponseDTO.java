@@ -5,7 +5,5 @@ public record PessoaFisicaResponseDTO(
         Long id,
         String cpf,
         String nome
-
-)
-{
+){
 }

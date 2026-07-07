@@ -1,4 +1,4 @@
-package com.oficinamecanica.oficina_mecanica_api.service;
+package com.oficinamecanica.oficina_mecanica_api.builder;
 
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.EnderecoRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.TelefoneRequestDTO;
@@ -6,7 +6,6 @@ import com.oficinamecanica.oficina_mecanica_api.integration.viacep.ViaCepRespons
 import com.oficinamecanica.oficina_mecanica_api.integration.viacep.ViaCepService;
 import com.oficinamecanica.oficina_mecanica_api.model.entity.Endereco;
 import com.oficinamecanica.oficina_mecanica_api.model.entity.Telefone;
-import com.oficinamecanica.oficina_mecanica_api.repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +14,9 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ClienteService {
+public class ClienteBuilder {
 
-    private final ClienteRepository repository;
     private final ViaCepService viaCepService;
-
-
 
     public Telefone buildTelefone(TelefoneRequestDTO request) {
 
@@ -71,6 +67,38 @@ public class ClienteService {
         }
 
         return endereco;
+    }
+
+    public void updateEndereco(EnderecoRequestDTO request, Endereco endereco) {
+
+        if (request == null) {
+            return;
+        }
+
+        String cep = request.cep();
+
+        if (cep != null && !cep.isBlank()) {
+
+            ViaCepResponseDTO viaCep = viaCepService.getViaCep(cep);
+            endereco.setRua(viaCep.logradouro());
+
+            endereco.setNumero(request.numero());
+
+            endereco.setCep(viaCep.cep());
+            endereco.setBairro(viaCep.bairro());
+            endereco.setCidade(viaCep.localidade());
+            endereco.setEstado(viaCep.uf());
+
+        } else {
+
+            endereco.setRua(request.rua());
+            endereco.setNumero(request.numero());
+            endereco.setCep(request.cep());
+            endereco.setBairro(request.bairro());
+            endereco.setCidade(request.cidade());
+            endereco.setEstado(request.estado());
+
+        }
     }
 }
 
