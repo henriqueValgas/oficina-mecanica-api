@@ -8,8 +8,6 @@ import java.util.Optional;
 
 public interface PessoaFisicaRepository extends JpaRepository<PessoaFisica, Integer> {
 
-    Optional<PessoaFisica> existsById(Long id);
-
     Optional<PessoaFisica> findByIdAndAtivoTrue(Long id);
 
     Optional<PessoaFisica> findByCpfAndAtivoTrue(String cpf);

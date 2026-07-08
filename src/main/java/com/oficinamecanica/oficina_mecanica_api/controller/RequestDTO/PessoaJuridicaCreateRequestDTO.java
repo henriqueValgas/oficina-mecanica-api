@@ -7,15 +7,16 @@ import org.hibernate.validator.constraints.br.CNPJ;
 
 import java.util.List;
 
-public record PessoaJuridicaRequestDTO(
+public record PessoaJuridicaCreateRequestDTO(
+
+        @CNPJ
+        String cnpj,
 
         @NotBlank(message = "Razão social é campo obrigatório")
         String razaosocial,
 
+        @NotBlank
         String nomefantasia,
-
-        @CNPJ
-        String cnpj,
 
         String observacao,
 
@@ -27,6 +28,8 @@ public record PessoaJuridicaRequestDTO(
 
         @Valid
         EnderecoRequestDTO endereco
+
+
 )
 {
 }

@@ -76,13 +76,25 @@ public class PessoaFisicaService {
     }
 
     @Transactional
-    public PessoaFisicaResponseDTO inativarClientePessoaFisica(Long id) {
+    public void inativarPessoaFisica(Long id) {
 
         PessoaFisica pessoaFisica = buscaClienteId(id);
 
         pessoaFisica.setAtivo(false);
+    }
 
-        return pessoaFisicaMapper.toDTO(pessoaFisica);
+    @Transactional(readOnly = true)
+    public List<PessoaFisicaResponseDTO> listarPessoaFisicaAtiva() {
+
+        List<PessoaFisica> listaPessoas = repository.findAllByAtivoTrue();
+        return listaPessoas.stream().map(pessoaFisicaMapper::toDTO).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<PessoaFisicaResponseDTO> listarPessoaFisicaInativa() {
+
+        List<PessoaFisica> listaInativas = repository.findAllByAtivoFalse();
+        return listaInativas.stream().map(pessoaFisicaMapper::toDTO).toList();
     }
 
     @Transactional(readOnly = true)
@@ -109,17 +121,4 @@ public class PessoaFisicaService {
                 .orElseThrow(() -> new RegistroNaoEncontradoException("Cliente não encontrado"));
     }
 
-    @Transactional(readOnly = true)
-    public List<PessoaFisicaResponseDTO> listarPessoaFisicaAtiva() {
-
-        List<PessoaFisica> listaPessoas = repository.findAllByAtivoTrue();
-        return listaPessoas.stream().map(pessoaFisicaMapper::toDTO).toList();
-    }
-
-    @Transactional(readOnly = true)
-    public List<PessoaFisicaResponseDTO> listarPessoaFisicaInativa() {
-
-        List<PessoaFisica> listaInativas = repository.findAllByAtivoFalse();
-        return listaInativas.stream().map(pessoaFisicaMapper::toDTO).toList();
-    }
 }

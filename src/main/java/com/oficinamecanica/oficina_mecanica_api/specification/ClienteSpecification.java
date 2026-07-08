@@ -13,7 +13,7 @@ public class ClienteSpecification {
     public static Specification<Cliente> nomeContem(String nome){
 
         return (root, query, cb) -> nome == null ? null :
-                cb.like(cb.lower(root.get("nome")), "%" + nome.toLowerCase() + "%");
+                cb.like(cb.lower(root.get("razaoSocial")), "%" + nome.toLowerCase() + "%");
 
     }
 

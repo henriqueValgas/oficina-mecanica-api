@@ -4,7 +4,6 @@ import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.BuscaClien
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.PessoaFisicaCreateRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.PessoaFisicaUpdateRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.PessoaFisicaResponseDTO;
-import com.oficinamecanica.oficina_mecanica_api.model.entity.PessoaFisica;
 import com.oficinamecanica.oficina_mecanica_api.service.PessoaFisicaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +30,7 @@ public class PessoaFisicaController implements ControllerUriSupport {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<PessoaFisicaResponseDTO> alteraDadosPessoaFisica(
+    public ResponseEntity<PessoaFisicaResponseDTO> atualizaPessoaFisica(
             @PathVariable Long id,
             @Valid @RequestBody PessoaFisicaUpdateRequestDTO request)
     {
@@ -42,7 +41,9 @@ public class PessoaFisicaController implements ControllerUriSupport {
     @DeleteMapping("/{id}")
     public ResponseEntity<PessoaFisicaResponseDTO> inativarPessoaFisica(@PathVariable Long id) {
 
-        return ResponseEntity.ok(service.inativarClientePessoaFisica(id));
+        service.inativarPessoaFisica(id);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/buscar-por-cpf")

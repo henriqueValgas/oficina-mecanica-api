@@ -14,17 +14,14 @@ import org.springframework.data.annotation.Id;
 @NoArgsConstructor
 public class PessoaJuridica extends Cliente {
 
-    @Id
-    private Long id;
-
     @Column(name = "cnpj")
     private String cnpj;
 
-    @Column(name = "razaosocial")
-    private String razaoSocial;
+    @Column(name = "razao_social")
+    private String razaosocial;
 
-    @Column(name = "nomefantasia")
-    private String nomeFantasia;
+    @Column(name = "nome_fantasia")
+    private String nomefantasia;
 
     @Column(name = "observacao")
     private String observacao;

@@ -1,5 +1,6 @@
 package com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Pattern;
 
 public record EnderecoRequestDTO(
