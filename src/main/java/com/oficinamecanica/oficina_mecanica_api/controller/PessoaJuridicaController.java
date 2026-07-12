@@ -1,5 +1,6 @@
 package com.oficinamecanica.oficina_mecanica_api.controller;
 
+import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.BuscaPessoaJuridicaPorCnpjRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.PessoaJuridicaCreateRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.PessoaJuridicaUpdateRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.PessoaJuridicaResponseDTO;
@@ -48,7 +49,7 @@ public class PessoaJuridicaController implements ControllerUriSupport {
 
     @PostMapping("/buscar-por-cnpj")
     public ResponseEntity<PessoaJuridicaResponseDTO> buscaPessoaJuridica(
-            @RequestBody PessoaJuridicaCreateRequestDTO request) {
+            @RequestBody BuscaPessoaJuridicaPorCnpjRequestDTO request) {
 
         return ResponseEntity.ok(service.buscarPessoaJuridicaPorCnpj(request.cnpj()));
     }

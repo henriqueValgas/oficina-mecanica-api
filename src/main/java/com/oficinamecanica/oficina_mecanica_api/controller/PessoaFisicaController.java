@@ -1,6 +1,6 @@
 package com.oficinamecanica.oficina_mecanica_api.controller;
 
-import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.BuscaClientePorCpfRequestDTO;
+import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.BuscaPessoaFisicaPorCpfRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.PessoaFisicaCreateRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.PessoaFisicaUpdateRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.PessoaFisicaResponseDTO;
@@ -47,7 +47,7 @@ public class PessoaFisicaController implements ControllerUriSupport {
     }
 
     @PostMapping("/buscar-por-cpf")
-    public ResponseEntity<PessoaFisicaResponseDTO> listarPessoaFisica(@RequestBody BuscaClientePorCpfRequestDTO request) {
+    public ResponseEntity<PessoaFisicaResponseDTO> listarPessoaFisica(@Valid @RequestBody BuscaPessoaFisicaPorCpfRequestDTO request) {
 
         return ResponseEntity.ok(service.buscarClientePessoaFisicaPorCpf(request.cpf()));
     }

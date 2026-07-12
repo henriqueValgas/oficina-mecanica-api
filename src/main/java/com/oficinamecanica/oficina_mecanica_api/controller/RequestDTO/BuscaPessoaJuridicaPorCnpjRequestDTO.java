@@ -1,7 +1,7 @@
 package com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO;
 
-public record BuscaClientePorCpfRequestDTO(
+public record BuscaPessoaJuridicaPorCnpjRequestDTO(
 
-        String cpf
+        String cnpj
 ) {
 }
