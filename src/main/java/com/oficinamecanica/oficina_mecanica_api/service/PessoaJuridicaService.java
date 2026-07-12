@@ -1,6 +1,6 @@
 package com.oficinamecanica.oficina_mecanica_api.service;
 
-import com.oficinamecanica.oficina_mecanica_api.builder.ClienteBuilder;
+import com.oficinamecanica.oficina_mecanica_api.builder.PessoaBuilder;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.PessoaJuridicaCreateRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.PessoaJuridicaUpdateRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.TelefoneRequestDTO;
@@ -23,7 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PessoaJuridicaService {
 
-    private final ClienteBuilder clienteBuilder;
+    private final PessoaBuilder pessoaBuilder;
     private final PessoaJuridicaRepository repository;
     private final PessoaJuridicaMapper mapperPessoaJuridica;
 
@@ -36,10 +36,10 @@ public class PessoaJuridicaService {
             throw new RegistroDuplicadoException("Cliente ja possui cadastro");
         }
 
-        Endereco endereco = clienteBuilder.buildEndereco(request.endereco());
+        Endereco endereco = pessoaBuilder.buildEndereco(request.endereco());
         pessoaJuridica.setEndereco(endereco);
 
-        List<Telefone> telefones = clienteBuilder.buildTelefones(request.telefones());
+        List<Telefone> telefones = pessoaBuilder.buildTelefones(request.telefones());
 
         telefones.forEach(pessoaJuridica::addTelefone);
 
@@ -56,7 +56,7 @@ public class PessoaJuridicaService {
         mapperPessoaJuridica.toUpdate(request, pessoaJuridica);
 
         if (request.endereco() != null) {
-            clienteBuilder.updateEndereco(request.endereco(), pessoaJuridica.getEndereco());
+            pessoaBuilder.updateEndereco(request.endereco(), pessoaJuridica.getEndereco());
         }
 
         if (request.telefones() != null) {
@@ -68,7 +68,7 @@ public class PessoaJuridicaService {
                 telefone.setNumero(telefoneRequestDTO.numero());
                 telefone.setTipo(telefoneRequestDTO.tipo());
 
-                telefone.setCliente(pessoaJuridica);
+                telefone.setPessoa(pessoaJuridica);
 
                 pessoaJuridica.getTelefones().add(telefone);
             }

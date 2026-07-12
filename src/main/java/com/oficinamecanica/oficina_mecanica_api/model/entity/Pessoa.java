@@ -11,11 +11,11 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "cliente")
+@Table(name = "pessoa")
 @Getter
 @Setter
 @NoArgsConstructor
-public abstract class Cliente extends Auditable {
+public abstract class Pessoa extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public abstract class Cliente extends Auditable {
     @Column(name = "email")
     private String email;
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Telefone> telefones = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -36,6 +36,6 @@ public abstract class Cliente extends Auditable {
 
     public void addTelefone(Telefone telefone) {
         telefones.add(telefone);
-        telefone.setCliente(this);
+        telefone.setPessoa(this);
     }
 }

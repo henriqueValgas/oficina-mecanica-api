@@ -14,7 +14,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ClienteBuilder {
+public class PessoaBuilder {
 
     private final ViaCepService viaCepService;
 

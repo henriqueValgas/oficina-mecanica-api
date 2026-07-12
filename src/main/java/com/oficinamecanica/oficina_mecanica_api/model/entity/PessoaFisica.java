@@ -12,7 +12,7 @@ import org.springframework.data.annotation.Id;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PessoaFisica extends Cliente {
+public class PessoaFisica extends Pessoa {
 
     @Id
     private Long id;

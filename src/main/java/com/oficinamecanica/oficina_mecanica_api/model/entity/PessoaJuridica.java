@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PessoaJuridica extends Cliente {
+public class PessoaJuridica extends Pessoa {
 
     @Column(name = "cnpj")
     private String cnpj;
