@@ -1,6 +1,7 @@
 package com.oficinamecanica.oficina_mecanica_api.model.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import org.springframework.data.annotation.Id;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class PessoaFisica extends Pessoa {
 
     @Id

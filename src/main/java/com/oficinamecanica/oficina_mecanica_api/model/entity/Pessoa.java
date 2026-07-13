@@ -2,6 +2,7 @@ package com.oficinamecanica.oficina_mecanica_api.model.entity;
 
 import com.oficinamecanica.oficina_mecanica_api.model.base.Auditable;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public abstract class Pessoa extends Auditable {
 
     @Id
