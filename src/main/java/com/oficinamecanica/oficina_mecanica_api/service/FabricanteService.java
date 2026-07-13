@@ -1,0 +1,7 @@
+package com.oficinamecanica.oficina_mecanica_api.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class FabricanteService {
+}
