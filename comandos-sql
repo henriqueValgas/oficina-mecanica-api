@@ -69,3 +69,51 @@ CREATE TABLE telefone (
         FOREIGN KEY (pessoa_id)
         REFERENCES pessoa(id)
 );
+
+CREATE TABLE fornecedor (
+
+	id BIGINT PRIMARY KEY AUTO_INCREMENT,
+
+    cnpj VARCHAR(18) UNIQUE NOT NULL,
+    razao_social VARCHAR(150) NOT NULL,
+    nome_fantasia VARCHAR(150) NOT NULL,
+
+    ativo BOOLEAN NOT NULL DEFAULT TRUE,
+
+    created_date TIMESTAMP,
+    updated_date TIMESTAMP
+);
+
+CREATE TABLE fabricante (
+	id BIGINT PRIMARY KEY NOT NULL,
+
+    nome VARCHAR(150),
+    pais_origem VARCHAR(100),
+
+    ativo BOOLEAN NOT NULL DEFAULT TRUE,
+
+    created_date TIMESTAMP,
+    updated_date TIMESTAMP
+);
+
+CREATE TABLE peca (
+
+	id BIGINT PRIMARY KEY NOT NULL,
+
+	nome VARCHAR(150) NOT NULL,
+    codigo VARCHAR(150) NOT NULL,
+    descricao VARCHAR(150) NOT NULL,
+    categoria VARCHAR(150) NOT NULL,
+    valor DOUBLE(10,2) NOT NULL,
+
+    fabricante_id BIGINT,
+
+    ativo BOOLEAN NOT NULL DEFAULT TRUE,
+
+    created_date TIMESTAMP,
+    updated_date TIMESTAMP
+
+    CONSTRAINT fk_peca_fabricante
+    FOREIGN KEY (fabricante_id)
+    REFERENCES fabricante(id)
+);
