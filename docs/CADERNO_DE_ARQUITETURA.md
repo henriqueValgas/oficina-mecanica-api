@@ -129,6 +129,40 @@ tornando a manutenção simples e facilitando possiveis refatorações
 - Financeiro
 - Relátorios
 
+# Regras de negócio
+obs: regras de negocios ficaram neste carderno durante a modelagem da api
+conforme o crescimento sera migrada para o local apropriado
+## Ordem de serviço
 
+- O numero da ordem de serviço é gerado automáticamente pelo sistema.
+- O numero da ordem de serviço é único.
+- Toda ordem de serviço deve estar vinculada a um cliente.
+- Toda ordem de serviço deve estar vinculada a um veiculo.
+- Toda ordem de serviço possui um mecânico responsavel.
+- A quilometragem de entrada não pode ser menor que a quilometragem atual do veiculo.
+- Ao abrir ordem de serviço a quilometragem do veiculo deve ser atualizada
+para a quilometragem de entrada.
+- Uma ordem de serviço pode ter uma ou mais peças.
+- Uma ordem de serviço pode ter um ou mais serviços.
+- O valor total da ordem de serviços e calculada automaticámente pelo sistema.
+- O subtotal e composto pela soma de serviços e soma das peças utilizadas.
+- Uma ordem de serviço so pode ser finaliza se tiver pelo menos um peça e um serviço.
 
+## Veiculo
 
+- Um cliente pode ter um ou mais veiculos.
+- Toda placa deve ser unica.
+- Todo chassi deve ser unico.
+- Todo veiculo deve possuir uma modelo.
+- Todo veiculo deve possuir uma marca.
+
+## Cliente
+
+- O cpf deve ser unico.
+- O cnpj deve ser unico.
+- Um cliente pode possuir varios veiculos.
+
+## Funcionarios 
+
+- Todo funcionarios herda os dados de pessoa fisica.
+- Um funcionario pode ser responsavel por varias ordens de serviço
