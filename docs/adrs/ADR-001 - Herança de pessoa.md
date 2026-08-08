@@ -1,6 +1,6 @@
 ## Contexto
 
-- O sistema precisa cadastra, clientes, funcionarios e fornecedores, 
+- O sistema precisa cadastrar, clientes, funcionarios e fornecedores, 
 todos compartilhando informaçoes comuns
 
 ## Decisão
