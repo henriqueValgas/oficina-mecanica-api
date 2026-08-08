@@ -113,7 +113,48 @@ tornando a manutenção simples e facilitando possiveis refatorações
 - Git
 - GitHub
 
-# 9 Evolução do projeto
+# 9 Convenção de nomeclatura
+Padronizar a nomeclatura para facilitar
+a leitura e manter a conscistencia entre modelo de dominio,
+modelo relacional e implementação
+
+## Modelo de dominio UML
+No modelo de dominio serão utilizadas as seguinte convenções
+
+- Entidades e classes: PascalCase
+- Atributos e métodos: camelCase
+
+### Exemplos de Classes
+- Pessoa 
+- PessoaFisica
+- PessoaJuridica
+- OrdemServico
+### Exemplos de atributos
+- dataEntrada
+- numeroOs
+- valorUnitario
+
+## Modelo relacional
+Será utilizada o modelo snake_case:
+- Tabelas: snake_case
+- Colunas: snake_case
+- Chaves estrangeiras: snake_case, utilizando padrão <entidade>id
+
+### Exemplos de tabelas
+- pessoa_fisica
+- ordem_servico
+- item_peca
+### Exemplos de colunas
+- data_entrada
+- data_saida
+- valor_total
+### Exemplos de chaves estrangeiras
+- item_peca_id
+- veiculo_id
+- pessoa_id
+
+
+# 10 Evolução do projeto
 ## Concluido
 - cadastro de pessoas
 - Pessoa fisica
