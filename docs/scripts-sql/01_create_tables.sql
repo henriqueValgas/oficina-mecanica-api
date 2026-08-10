@@ -181,7 +181,7 @@ CREATE TABLE ordem_servico (
     sub_total_servico NUMERIC(10,2),
     descontos NUMERIC(10,2),
     valor_total NUMERIC(10,2),
-    status VARCHAR(20),
+    status VARCHAR(20) NOT NULL,
     veiculo_id uuid NOT NULL,
     pessoa_id uuid NOT NULL,
     funcionario_id uuid NOT NULL,
