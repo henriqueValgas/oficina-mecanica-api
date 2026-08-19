@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class FornecedorService {
     }
 
     @Transactional
-    public FornecedorResponseDTO atualizaFornecedor(Long id, FornecedorRequestDTO request) {
+    public FornecedorResponseDTO atualizaFornecedor(UUID id, FornecedorRequestDTO request) {
 
         Fornecedor fornecedor = buscarFornecedorPorId(id);
 
@@ -44,7 +45,7 @@ public class FornecedorService {
 
 
     @Transactional
-    public void inativarFornecedor(Long id) {
+    public void inativarFornecedor(UUID id) {
 
         Fornecedor fornecedor = buscarFornecedorPorIdEAtivo(id);
 
@@ -67,14 +68,14 @@ public class FornecedorService {
         return listarFornecedorInativo.stream().map(mapper::toDTO).toList();
     }
 
-    private Fornecedor buscarFornecedorPorId(Long id) {
+    private Fornecedor buscarFornecedorPorId(UUID id) {
 
         return repository.findById(id)
                 .orElseThrow(() -> new RegistroNaoEncontradoException("Fornecedor não encontrado"));
 
     }
 
-    private Fornecedor buscarFornecedorPorIdEAtivo(Long id){
+    private Fornecedor buscarFornecedorPorIdEAtivo(UUID id){
 
         return repository.findByIdAndAtivoTrue(id)
                 .orElseThrow(()-> new RegistroNaoEncontradoException("Fornecedor não encontrado"));

@@ -1,8 +1,10 @@
 package com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO;
 
+import java.util.UUID;
+
 public record PessoaJuridicaResponseDTO(
 
-        Long id,
+        UUID id,
         String cnpj,
         String razaosocial,
         String nomefantasia,

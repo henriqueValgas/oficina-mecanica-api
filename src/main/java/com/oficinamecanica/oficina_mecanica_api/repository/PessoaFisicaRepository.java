@@ -5,10 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-public interface PessoaFisicaRepository extends JpaRepository<PessoaFisica, Integer> {
+public interface PessoaFisicaRepository extends JpaRepository<PessoaFisica, UUID> {
 
-    Optional<PessoaFisica> findByIdAndAtivoTrue(Long id);
+    Optional<PessoaFisica> findByIdAndAtivoTrue(UUID id);
 
     Optional<PessoaFisica> findByCpfAndAtivoTrue(String cpf);
 

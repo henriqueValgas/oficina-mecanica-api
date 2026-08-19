@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 
+import java.util.UUID;
+
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
 @Table(name = "pessoa_fisica")
@@ -17,7 +19,7 @@ import org.springframework.data.annotation.Id;
 public class PessoaFisica extends Pessoa {
 
     @Id
-    private Long id;
+    private UUID id;
 
     @Column(name = "nome", nullable = false)
     private String nome;

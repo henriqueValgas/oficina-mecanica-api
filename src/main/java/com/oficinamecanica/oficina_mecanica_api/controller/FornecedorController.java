@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/fornecedor")
@@ -31,7 +32,7 @@ public class FornecedorController implements ControllerUriSupport {
 
     @PatchMapping("/{id}")
     public ResponseEntity<FornecedorResponseDTO> atualizaFornecedor(
-            @PathVariable Long id,
+            @PathVariable UUID id,
             @RequestBody FornecedorRequestDTO request) {
 
         FornecedorResponseDTO response = service.atualizaFornecedor(id, request);
@@ -40,7 +41,7 @@ public class FornecedorController implements ControllerUriSupport {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<FornecedorResponseDTO> inativarFornecedor(@PathVariable Long id) {
+    public ResponseEntity<FornecedorResponseDTO> inativarFornecedor(@PathVariable UUID id) {
 
         service.inativarFornecedor(id);
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/pessoa_fisica")
@@ -31,7 +32,7 @@ public class PessoaFisicaController implements ControllerUriSupport {
 
     @PatchMapping("/{id}")
     public ResponseEntity<PessoaFisicaResponseDTO> atualizaPessoaFisica(
-            @PathVariable Long id,
+            @PathVariable UUID id,
             @Valid @RequestBody PessoaFisicaUpdateRequestDTO request)
     {
 
@@ -39,7 +40,7 @@ public class PessoaFisicaController implements ControllerUriSupport {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<PessoaFisicaResponseDTO> inativarPessoaFisica(@PathVariable Long id) {
+    public ResponseEntity<PessoaFisicaResponseDTO> inativarPessoaFisica(@PathVariable UUID id) {
 
         service.inativarPessoaFisica(id);
 

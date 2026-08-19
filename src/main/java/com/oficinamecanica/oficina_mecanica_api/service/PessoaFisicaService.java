@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -47,7 +48,7 @@ public class PessoaFisicaService {
     }
 
     @Transactional
-    public PessoaFisicaResponseDTO atualizaPessoaFisica(Long id, PessoaFisicaUpdateRequestDTO request) {
+    public PessoaFisicaResponseDTO atualizaPessoaFisica(UUID id, PessoaFisicaUpdateRequestDTO request) {
 
         PessoaFisica pessoaFisica = buscaClienteId(id);
 
@@ -76,7 +77,7 @@ public class PessoaFisicaService {
     }
 
     @Transactional
-    public void inativarPessoaFisica(Long id) {
+    public void inativarPessoaFisica(UUID id) {
 
         PessoaFisica pessoaFisica = buscaClienteId(id);
 
@@ -115,7 +116,7 @@ public class PessoaFisicaService {
                 .orElseThrow(() -> new RegistroNaoEncontradoException("Cliente não encontrado"));
     }
 
-    private PessoaFisica buscaClienteId(Long id) {
+    private PessoaFisica buscaClienteId(UUID id) {
 
         return repository.findByIdAndAtivoTrue(id)
                 .orElseThrow(() -> new RegistroNaoEncontradoException("Cliente não encontrado"));

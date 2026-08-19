@@ -5,10 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-public interface FornecedorRepository extends JpaRepository<Fornecedor, Long> {
+public interface FornecedorRepository extends JpaRepository<Fornecedor, UUID> {
 
-    Optional<Fornecedor> findByIdAndAtivoTrue(Long id);
+    Optional<Fornecedor> findByIdAndAtivoTrue(UUID id);
 
     List<Fornecedor> findAllByAtivoTrue();
 

@@ -5,12 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-public interface PessoaJuridicaRepository extends JpaRepository<PessoaJuridica, Integer> {
-
-    void existsById(Long id);
-
-    Optional<PessoaJuridica> findById(Long id);
+public interface PessoaJuridicaRepository extends JpaRepository<PessoaJuridica, UUID> {
 
     boolean existsByCnpj(String cnpj);
 
