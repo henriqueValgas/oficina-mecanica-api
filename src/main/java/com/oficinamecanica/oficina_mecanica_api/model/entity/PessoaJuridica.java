@@ -22,7 +22,7 @@ public class PessoaJuridica extends Pessoa {
     private String cnpj;
 
     @Column(name = "razao_social")
-    private String razaosocial;
+    private String razaoSocial;
 
     @Column(name = "nome_fantasia")
     private String nomefantasia;

@@ -48,7 +48,7 @@ CREATE TABLE endereco (
     complemento VARCHAR(100),
     bairro VARCHAR(100) NOT NULL,
     cidade VARCHAR(100) NOT NULL,
-    uf CHAR(2) NOT NULL,
+    uf VARCHAR(2) NOT NULL,
     cep VARCHAR(8),
     tipo_endereco VARCHAR(20) NOT NULL,
     pessoa_id uuid NOT NULL

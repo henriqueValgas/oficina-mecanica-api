@@ -9,6 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
@@ -16,10 +17,17 @@ import java.time.LocalDateTime;
 public abstract class Auditable {
 
     @CreatedDate
-    @Column(updatable = false,  nullable = false)
-    private LocalDateTime createdDate;
+    @Column(name ="created_at" ,updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "created_by")
+    private UUID createdBy;
 
     @LastModifiedDate
-    private LocalDateTime updatedDate;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "update_at")
+    private UUID updateAt;
 
 }

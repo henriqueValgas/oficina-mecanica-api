@@ -13,7 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Endereco extends Auditable {
+public class Endereco{
 
     @Id
     private UUID id;
@@ -26,6 +26,7 @@ public class Endereco extends Auditable {
 
     private String cidade;
 
+    @Column(name = "uf", columnDefinition = "CHAR(2)")
     private String estado;
 
     private String cep;

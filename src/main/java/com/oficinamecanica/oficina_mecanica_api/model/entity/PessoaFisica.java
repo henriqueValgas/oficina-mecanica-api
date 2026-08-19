@@ -18,9 +18,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PessoaFisica extends Pessoa {
 
-    @Id
-    private UUID id;
-
     @Column(name = "nome", nullable = false)
     private String nome;
 
