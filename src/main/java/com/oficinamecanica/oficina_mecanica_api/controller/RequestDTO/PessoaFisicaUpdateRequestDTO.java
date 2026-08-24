@@ -10,6 +10,6 @@ public record PessoaFisicaUpdateRequestDTO(
 
         List<TelefoneRequestDTO> telefones,
 
-        EnderecoRequestDTO endereco
+        EnderecoUpdateRequestDTO endereco
 ) {
 }

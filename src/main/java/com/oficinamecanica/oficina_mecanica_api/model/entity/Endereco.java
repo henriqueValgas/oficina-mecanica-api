@@ -22,6 +22,8 @@ public class Endereco{
 
     private String numero;
 
+    private String complemento;
+
     private String bairro;
 
     private String cidade;
@@ -31,4 +33,7 @@ public class Endereco{
 
     private String cep;
 
+    @ManyToOne
+    @JoinColumn(name = "pessoa_id", nullable = false)
+    private Pessoa pessoa;
 }

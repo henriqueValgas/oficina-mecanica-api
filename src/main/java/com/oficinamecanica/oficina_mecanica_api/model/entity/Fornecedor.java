@@ -1,35 +1,18 @@
 package com.oficinamecanica.oficina_mecanica_api.model.entity;
 
-import com.oficinamecanica.oficina_mecanica_api.model.base.Auditable;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @Entity
+@PrimaryKeyJoinColumn(name = "id")
 @Table(name = "fornecedor")
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-public class Fornecedor extends Auditable {
-
-    @Id
-    private UUID id;
-
-    @Column(unique = true)
-    private String cnpj;
-
-    @Column(name = "razao_social", nullable = false)
-    private String razaoSocial;
-
-    @Column(name = "nome_fantasia", nullable = false)
-    private String nomeFantasia;
-
-    @Column(nullable = false)
-    boolean ativo;
+public class Fornecedor extends PessoaJuridica {
 
 }

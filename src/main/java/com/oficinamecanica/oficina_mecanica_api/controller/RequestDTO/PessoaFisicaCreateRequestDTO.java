@@ -23,6 +23,6 @@ public record PessoaFisicaCreateRequestDTO(
         List<TelefoneRequestDTO> telefones,
 
         @Valid
-        EnderecoRequestDTO endereco
+        List<EnderecoRequestDTO> enderecos
 ){
 }

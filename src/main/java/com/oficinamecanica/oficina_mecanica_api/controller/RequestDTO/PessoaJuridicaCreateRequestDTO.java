@@ -18,7 +18,7 @@ public record PessoaJuridicaCreateRequestDTO(
         @NotBlank
         String nomefantasia,
 
-        String observacao,
+        String observacoes,
 
         @Email
         String email,
@@ -27,9 +27,7 @@ public record PessoaJuridicaCreateRequestDTO(
         List<TelefoneRequestDTO> telefones,
 
         @Valid
-        EnderecoRequestDTO endereco
+        List<EnderecoRequestDTO> enderecos
 
-
-)
-{
+) {
 }

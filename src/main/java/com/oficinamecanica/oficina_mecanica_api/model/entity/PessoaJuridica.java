@@ -27,7 +27,7 @@ public class PessoaJuridica extends Pessoa {
     @Column(name = "nome_fantasia")
     private String nomefantasia;
 
-    @Column(name = "observacao")
-    private String observacao;
+    @Column(name = "observacoes")
+    private String observacoes;
 
 }

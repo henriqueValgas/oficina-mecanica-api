@@ -10,14 +10,15 @@ import org.mapstruct.*;
 public interface PessoaFisicaMapper {
 
     @Mapping(target = "telefones", ignore = true)
-    @Mapping(target = "endereco", ignore = true)
+    @Mapping(target = "enderecos", ignore = true)
     PessoaFisica toEntity(PessoaFisicaCreateRequestDTO request);
 
     @BeanMapping(
             nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
     )
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "telefones", ignore = true)
-    @Mapping(target = "endereco", ignore = true)
+    @Mapping(target = "enderecos", ignore = true)
     void toUpdate(PessoaFisicaUpdateRequestDTO request, @MappingTarget PessoaFisica pessoaFisica);
 
     PessoaFisicaResponseDTO toDTO(PessoaFisica entity);

@@ -9,14 +9,15 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring")
 public interface PessoaJuridicaMapper {
 
-    @Mapping(target = "endereco", ignore = true)
+    @Mapping(target = "enderecos", ignore = true)
     @Mapping(target = "telefones", ignore = true)
     PessoaJuridica toEntity(PessoaJuridicaCreateRequestDTO request);
 
     @BeanMapping(
             nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
     )
-    @Mapping(target = "endereco", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "enderecos", ignore = true)
     @Mapping(target = "telefones", ignore = true)
     void toUpdate(PessoaJuridicaUpdateRequestDTO request, @MappingTarget PessoaJuridica entity);
 

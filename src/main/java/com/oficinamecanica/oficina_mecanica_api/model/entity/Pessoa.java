@@ -29,12 +29,15 @@ public abstract class Pessoa extends Auditable {
     @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Telefone> telefones = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "endereco_id", referencedColumnName = "id")
-    private Endereco endereco;
+    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Endereco> enderecos = new ArrayList<>();
 
     @Column(nullable = false)
     private boolean ativo = true;
+    public void addEndereco(Endereco endereco){
+        enderecos.add(endereco);
+        endereco.setPessoa(this);
+    }
 
     public void addTelefone(Telefone telefone) {
         telefones.add(telefone);

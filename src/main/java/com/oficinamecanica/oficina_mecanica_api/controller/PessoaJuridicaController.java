@@ -34,8 +34,7 @@ public class PessoaJuridicaController implements ControllerUriSupport {
     @PatchMapping("/{id}")
     public ResponseEntity<PessoaJuridicaResponseDTO> atualizaPessoaJurica(
             @PathVariable UUID id,
-            @Valid @RequestBody PessoaJuridicaUpdateRequestDTO request)
-    {
+            @Valid @RequestBody PessoaJuridicaUpdateRequestDTO request){
 
         return ResponseEntity.ok(service.atualizaPessoaJuridica(id, request));
     }

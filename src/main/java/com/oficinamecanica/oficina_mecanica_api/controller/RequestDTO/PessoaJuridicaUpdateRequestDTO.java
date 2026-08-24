@@ -1,19 +1,22 @@
 package com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO;
 
 import java.util.List;
+import java.util.UUID;
 
 public record PessoaJuridicaUpdateRequestDTO(
+
+        UUID id,
 
         String razaosocial,
 
         String nomefantasia,
 
-        String observacao,
+        String observacoes,
 
         String email,
 
         List<TelefoneRequestDTO> telefones,
 
-        EnderecoRequestDTO endereco
+        EnderecoUpdateRequestDTO endereco
 ){
 }

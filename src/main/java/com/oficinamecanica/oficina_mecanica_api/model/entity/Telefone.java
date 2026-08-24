@@ -13,13 +13,14 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Telefone extends Auditable {
+public class Telefone {
 
     @Id
     private UUID id;
 
     private String numero;
 
+    @Column(name = "tipo_telefone")
     @Enumerated(EnumType.STRING)
     private TipoTelefone tipo;
 

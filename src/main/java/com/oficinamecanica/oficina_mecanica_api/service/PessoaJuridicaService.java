@@ -33,12 +33,11 @@ public class PessoaJuridicaService {
 
         PessoaJuridica pessoaJuridica = mapperPessoaJuridica.toEntity(request);
 
-        if (existeCliente(pessoaJuridica.getCnpj())) {
-            throw new RegistroDuplicadoException("Cliente ja possui cadastro");
-        }
+        verificaCnpjCadastrado(pessoaJuridica.getCnpj());
 
-        Endereco endereco = pessoaBuilder.buildEndereco(request.endereco());
-        pessoaJuridica.setEndereco(endereco);
+        List<Endereco> enderecos = pessoaBuilder.buildEnderecos(request.enderecos());
+
+        enderecos.forEach(pessoaJuridica::addEndereco);
 
         List<Telefone> telefones = pessoaBuilder.buildTelefones(request.telefones());
 
@@ -57,7 +56,7 @@ public class PessoaJuridicaService {
         mapperPessoaJuridica.toUpdate(request, pessoaJuridica);
 
         if (request.endereco() != null) {
-            pessoaBuilder.updateEndereco(request.endereco(), pessoaJuridica.getEndereco());
+            pessoaBuilder.updateEndereco(request.endereco(), pessoaJuridica.getEnderecos());
         }
 
         if (request.telefones() != null) {
@@ -103,8 +102,10 @@ public class PessoaJuridicaService {
         return listaPessoaJuridicaInativos.stream().map(mapperPessoaJuridica::toDTO).toList();
     }
 
-    private boolean existeCliente(String cnpj) {
-        return repository.existsByCnpj(cnpj);
+    private void verificaCnpjCadastrado(String cnpj){
+        if (repository.existsByCnpj(cnpj)) {
+            throw new RegistroDuplicadoException("Cliente ja possui cadastro");
+        }
     }
 
     private PessoaJuridica buscaClienteId(UUID id) {

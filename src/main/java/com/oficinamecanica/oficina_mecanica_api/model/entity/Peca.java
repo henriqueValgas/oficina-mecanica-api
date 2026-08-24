@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity
 @Table(name = "peca")
@@ -18,8 +19,7 @@ import java.math.BigDecimal;
 public class Peca extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private UUID id;
 
     @Column(name = "nome", nullable = false)
     private String nome;
@@ -30,15 +30,15 @@ public class Peca extends Auditable {
     @Column(name = "descricao", nullable = false)
     private String descricao;
 
-    @Column(name = "categoria", nullable = false)
-    private String categoria;
+    @Column(name = "custo", nullable = false)
+    private BigDecimal custo;
 
-    @Column(name = "valor", nullable = false, scale = 2)
-    private BigDecimal valor;
+    @Column(name = "valor_venda", nullable = false, scale = 2)
+    private BigDecimal valorVenda;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fabricante_id", nullable = false)
-    private Fabricante fabricante;
+    @JoinColumn(name = "marca_id", nullable = false)
+    private Marca marca;
 
     @Column(nullable = false)
     private boolean ativo;

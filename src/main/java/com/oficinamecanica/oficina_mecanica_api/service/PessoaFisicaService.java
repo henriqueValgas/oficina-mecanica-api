@@ -32,12 +32,10 @@ public class PessoaFisicaService {
 
         PessoaFisica pessoaFisica = pessoaFisicaMapper.toEntity(request);
 
-        if (clienteExiste(pessoaFisica.getCpf())) {
-            throw new RegistroDuplicadoException("Cliente ja possui cadastro");
-        }
+        verificaCpfCadastrado(pessoaFisica.getCpf());
 
-        Endereco endereco = pessoaBuilder.buildEndereco(request.endereco());
-        pessoaFisica.setEndereco(endereco);
+        List<Endereco> enderecos = pessoaBuilder.buildEnderecos(request.enderecos());
+        enderecos.forEach(pessoaFisica::addEndereco);
 
         List<Telefone> telefones = pessoaBuilder.buildTelefones(request.telefones());
         telefones.forEach(pessoaFisica::addTelefone);
@@ -55,7 +53,7 @@ public class PessoaFisicaService {
         pessoaFisicaMapper.toUpdate(request, pessoaFisica);
 
         if (request.endereco() != null) {
-            pessoaBuilder.updateEndereco(request.endereco(), pessoaFisica.getEndereco());
+            pessoaBuilder.updateEndereco(request.endereco(), pessoaFisica.getEnderecos());
         }
 
         if (request.telefones() != null) {
@@ -106,8 +104,10 @@ public class PessoaFisicaService {
         return pessoaFisicaMapper.toDTO(pessoaFisica);
     }
 
-    private boolean clienteExiste(String cpf) {
-        return repository.existsByCpf(cpf);
+    private void verificaCpfCadastrado(String cpf) {
+        if (repository.existsByCpf(cpf)) {
+            throw new RegistroDuplicadoException("Cpf ja cadastrado");
+        }
     }
 
     private PessoaFisica buscaClientePorCpfEAtivo(String cpf) {

@@ -27,7 +27,7 @@ public abstract class Auditable {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "update_at")
-    private UUID updateAt;
+    @Column(name = "updated_by")
+    private UUID updatedBy;
 
 }

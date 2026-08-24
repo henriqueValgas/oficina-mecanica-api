@@ -1,7 +1,9 @@
 package com.oficinamecanica.oficina_mecanica_api.builder;
 
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.EnderecoRequestDTO;
+import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.EnderecoUpdateRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.TelefoneRequestDTO;
+import com.oficinamecanica.oficina_mecanica_api.exceptions.RegistroNaoEncontradoException;
 import com.oficinamecanica.oficina_mecanica_api.integration.viacep.ViaCepResponseDTO;
 import com.oficinamecanica.oficina_mecanica_api.integration.viacep.ViaCepService;
 import com.oficinamecanica.oficina_mecanica_api.model.entity.Endereco;
@@ -69,11 +71,30 @@ public class PessoaBuilder {
         return endereco;
     }
 
-    public void updateEndereco(EnderecoRequestDTO request, Endereco endereco) {
+    public List<Endereco> buildEnderecos(List<EnderecoRequestDTO> resquest) {
+        List<Endereco> enderecos = new ArrayList<>();
+
+        for (EnderecoRequestDTO enderecoRequestDTO : resquest) {
+            enderecos.add(buildEndereco(enderecoRequestDTO));
+        }
+
+        return enderecos;
+    }
+
+    public void updateEndereco(EnderecoUpdateRequestDTO request, List<Endereco> enderecos) {
 
         if (request == null) {
             return;
         }
+
+        if (request.id() == null) {
+            throw new RegistroNaoEncontradoException("Id do endereço não encontrado");
+        }
+
+        Endereco endereco = enderecos.stream()
+                .filter(e -> e.getId()
+                        .equals(request.id()))
+                .findFirst().orElseThrow(() -> new RegistroNaoEncontradoException("Endereço não encontrado"));
 
         String cep = request.cep();
 
@@ -83,6 +104,7 @@ public class PessoaBuilder {
             endereco.setRua(viaCep.logradouro());
 
             endereco.setNumero(request.numero());
+            endereco.setComplemento(request.complemento());
 
             endereco.setCep(viaCep.cep());
             endereco.setBairro(viaCep.bairro());
@@ -93,6 +115,7 @@ public class PessoaBuilder {
 
             endereco.setRua(request.rua());
             endereco.setNumero(request.numero());
+            endereco.setComplemento(request.complemento());
             endereco.setCep(request.cep());
             endereco.setBairro(request.bairro());
             endereco.setCidade(request.cidade());
@@ -101,4 +124,3 @@ public class PessoaBuilder {
         }
     }
 }
-

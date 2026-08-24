@@ -58,7 +58,8 @@ CREATE TABLE telefone (
     id uuid PRIMARY KEY,
     numero VARCHAR(20) NOT NULL,
     tipo_telefone VARCHAR(20) NOT NULL,
-    pessoa_id uuid NOT NULL
+    pessoa_id uuid NOT NULL,
+    ativo BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE peca (
@@ -68,7 +69,7 @@ CREATE TABLE peca (
     descricao VARCHAR(255),
     custo NUMERIC(10,2) NOT NULL,
     valor_venda NUMERIC(10,2) NOT NULL,
-    ativo BOOLEAN NOT NULL,
+    ativo BOOLEAN NOT NULL DEFAULT TRUE,
     marca_id uuid NOT NULL,
     created_by uuid,
     created_at TIMESTAMP,
@@ -81,7 +82,8 @@ CREATE TABLE aplicacao (
     ano_inicial INTEGER NOT NULL ,
     ano_final INTEGER NOT NULL ,
     observacoes VARCHAR(255),
-    modelo_id uuid NOT NULL
+    modelo_id uuid NOT NULL,
+    ativo BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE servico (
@@ -91,7 +93,7 @@ CREATE TABLE servico (
     descricao VARCHAR(255),
     tempo_previsto_minutos INTEGER NOT NULL,
     valor_padrao NUMERIC(10,2) NOT NULL,
-    ativo BOOLEAN NOT NULL,
+    ativo BOOLEAN NOT NULL DEFAULT TRUE,
     created_by uuid,
     created_at TIMESTAMP,
     updated_by uuid,
@@ -101,13 +103,15 @@ CREATE TABLE servico (
 CREATE TABLE marca (
     id uuid PRIMARY KEY,
     nome VARCHAR(150) NOT NULL,
-    pais_origem VARCHAR(100) NOT NULL
+    pais_origem VARCHAR(100) NOT NULL,
+    ativo BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE modelo (
     id uuid PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    marca_id uuid NOT NULL
+    marca_id uuid NOT NULL,
+    ativo BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE veiculo (
@@ -121,7 +125,7 @@ CREATE TABLE veiculo (
     cor VARCHAR(60) NOT NULL,
     combustivel VARCHAR(30) NOT NULL,
     modelo_id uuid NOT NULL,
-    ativo BOOLEAN NOT NULL,
+    ativo BOOLEAN NOT NULL DEFAULT TRUE,
     created_by uuid,
     created_at TIMESTAMP,
     updated_by uuid,
@@ -185,6 +189,7 @@ CREATE TABLE ordem_servico (
     veiculo_id uuid NOT NULL,
     pessoa_id uuid NOT NULL,
     funcionario_id uuid NOT NULL,
+    ativo BOOLEAN NOT NULL DEFAULT TRUE,
     created_by uuid,
     created_at TIMESTAMP,
     updated_by uuid,

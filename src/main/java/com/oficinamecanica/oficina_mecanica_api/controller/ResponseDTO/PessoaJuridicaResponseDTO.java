@@ -8,7 +8,7 @@ public record PessoaJuridicaResponseDTO(
         String cnpj,
         String razaosocial,
         String nomefantasia,
-        String observacao
+        String observacoes
 
 )
 {

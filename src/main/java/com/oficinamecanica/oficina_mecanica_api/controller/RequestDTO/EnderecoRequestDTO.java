@@ -15,11 +15,12 @@ public record EnderecoRequestDTO(
 
         String numero,
 
+        String complemento,
+
         String bairro,
 
         String cidade,
 
         String estado
-)
-{
+){
 }
