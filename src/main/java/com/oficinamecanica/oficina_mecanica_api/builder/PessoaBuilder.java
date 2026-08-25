@@ -50,6 +50,7 @@ public class PessoaBuilder {
             ViaCepResponseDTO viaCep = viaCepService.getViaCep(cep);
             endereco.setRua(viaCep.logradouro());
 
+            endereco.setTipoEndereco(request.tipoEndereco());
             endereco.setNumero(request.numero());
 
             endereco.setCep(viaCep.cep());
@@ -59,6 +60,7 @@ public class PessoaBuilder {
 
         } else {
 
+            endereco.setTipoEndereco(request.tipoEndereco());
             endereco.setRua(request.rua());
             endereco.setNumero(request.numero());
             endereco.setCep(request.cep());
@@ -96,11 +98,13 @@ public class PessoaBuilder {
                         .equals(request.id()))
                 .findFirst().orElseThrow(() -> new RegistroNaoEncontradoException("Endereço não encontrado"));
 
+        endereco.setTipoEndereco(request.tipoEndereco());
         String cep = request.cep();
 
         if (cep != null && !cep.isBlank()) {
 
             ViaCepResponseDTO viaCep = viaCepService.getViaCep(cep);
+
             endereco.setRua(viaCep.logradouro());
 
             endereco.setNumero(request.numero());

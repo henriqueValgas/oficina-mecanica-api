@@ -21,6 +21,7 @@ import java.util.UUID;
 public abstract class Pessoa extends Auditable {
 
     @Id
+    @GeneratedValue(strategy =GenerationType.UUID)
     private UUID id;
 
     @Column(name = "email")

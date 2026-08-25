@@ -6,8 +6,9 @@ public record PessoaJuridicaResponseDTO(
 
         UUID id,
         String cnpj,
-        String razaosocial,
-        String nomefantasia,
+        String razaoSocial,
+        String nomeFantasia,
+        String inscricaoEstadual,
         String observacoes
 
 )

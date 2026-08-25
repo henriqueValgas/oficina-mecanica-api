@@ -16,6 +16,7 @@ import java.util.UUID;
 public class Telefone {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     private String numero;

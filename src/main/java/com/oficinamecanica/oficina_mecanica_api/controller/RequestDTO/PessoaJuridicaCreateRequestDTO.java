@@ -13,10 +13,13 @@ public record PessoaJuridicaCreateRequestDTO(
         String cnpj,
 
         @NotBlank(message = "Razão social é campo obrigatório")
-        String razaosocial,
+        String razaoSocial,
 
         @NotBlank
-        String nomefantasia,
+        String nomeFantasia,
+
+        @NotBlank
+        String inscricaoEstadual,
 
         String observacoes,
 

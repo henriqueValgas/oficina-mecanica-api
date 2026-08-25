@@ -7,9 +7,11 @@ public record PessoaJuridicaUpdateRequestDTO(
 
         UUID id,
 
-        String razaosocial,
+        String razaoSocial,
 
-        String nomefantasia,
+        String nomeFantasia,
+
+        String inscricaoEstadual,
 
         String observacoes,
 

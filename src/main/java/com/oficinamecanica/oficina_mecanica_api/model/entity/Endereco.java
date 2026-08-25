@@ -16,7 +16,12 @@ import java.util.UUID;
 public class Endereco{
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_endereco", nullable = false)
+    private TipoEndereco tipoEndereco;
 
     private String rua;
 

@@ -49,7 +49,7 @@ CREATE TABLE endereco (
     bairro VARCHAR(100) NOT NULL,
     cidade VARCHAR(100) NOT NULL,
     uf VARCHAR(2) NOT NULL,
-    cep VARCHAR(8),
+    cep VARCHAR(9),
     tipo_endereco VARCHAR(20) NOT NULL,
     pessoa_id uuid NOT NULL
 );
