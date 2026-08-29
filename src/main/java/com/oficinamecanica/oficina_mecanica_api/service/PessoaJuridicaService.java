@@ -102,6 +102,14 @@ public class PessoaJuridicaService {
         return listaPessoaJuridicaInativos.stream().map(mapperPessoaJuridica::toDTO).toList();
     }
 
+    @Transactional
+    public PessoaJuridicaResponseDTO buscarPessoaJuridicaPorCnpj(@CNPJ String cnpj) {
+
+        PessoaJuridica pessoaJuridica = buscarPessoaJuridicaCnpjEAtivo(cnpj);
+
+        return mapperPessoaJuridica.toDTO(pessoaJuridica);
+    }
+
     private void verificaCnpjCadastrado(String cnpj){
         if (repository.existsByCnpj(cnpj)) {
             throw new RegistroDuplicadoException("Cliente ja possui cadastro");
@@ -109,15 +117,8 @@ public class PessoaJuridicaService {
     }
 
     private PessoaJuridica buscaClienteId(UUID id) {
-        return repository.findById(id).orElseThrow(() -> new RegistroNaoEncontradoException("Cliente não encontrado"));
-    }
-
-    @Transactional
-    public PessoaJuridicaResponseDTO buscarPessoaJuridicaPorCnpj(@CNPJ String cnpj) {
-
-        PessoaJuridica pessoaJuridica = buscarPessoaJuridicaCnpjEAtivo(cnpj);
-
-        return mapperPessoaJuridica.toDTO(pessoaJuridica);
+        return repository.findById(id).orElseThrow(
+                () -> new RegistroNaoEncontradoException("Cliente não encontrado"));
     }
 
     public PessoaJuridica buscarPessoaJuridicaCnpjEAtivo(String cnpj) {

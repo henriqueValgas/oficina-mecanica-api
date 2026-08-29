@@ -34,7 +34,8 @@ CREATE TABLE cliente_pj (
 CREATE TABLE funcionario (
     id uuid PRIMARY KEY,
     cargo VARCHAR(20) NOT NULL,
-    matricula VARCHAR(20) NOT NULL UNIQUE
+    matricula VARCHAR(20) NOT NULL UNIQUE,
+    data_admissao DATE NOT NULL
 );
 
 CREATE TABLE fornecedor (

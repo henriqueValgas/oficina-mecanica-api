@@ -7,6 +7,7 @@ public record TelefoneRequestDTO(
 
         @NotBlank
         String numero,
+        
         TipoTelefone tipo
 ) {
 }
