@@ -1,8 +1,6 @@
 package com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO;
 
 import com.oficinamecanica.oficina_mecanica_api.model.entity.Cargo;
-import com.oficinamecanica.oficina_mecanica_api.model.entity.Endereco;
-import com.oficinamecanica.oficina_mecanica_api.model.entity.Telefone;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -24,15 +22,16 @@ public record FuncionarioCreateRequestDTO(
         String matricula,
 
         @NotNull
-        LocalDate dataContratacao,
+        LocalDate dataAdmissao,
 
         Cargo cargo,
 
         @Valid
-        List<Telefone> telefones,
+        List<TelefoneRequestDTO> telefones,
 
         @Valid
-        List<Endereco> enderecos
+        List<EnderecoRequestDTO> enderecos
 
 ) {
 }
+

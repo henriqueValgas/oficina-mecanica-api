@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -37,13 +38,49 @@ public class FuncionarioController implements ControllerUriSupport {
         return ResponseEntity.ok(service.update(id, request));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<FuncionarioResponseDTO> inativarFuncionarioPorId(UUID id){
+    @DeleteMapping("/{id}/inativar")
+    public ResponseEntity<FuncionarioResponseDTO> inativarFuncionarioPorId(
+            @PathVariable UUID id) {
 
         service.inativarFuncionarioPorCpf(id);
 
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping("/{id}/ativar")
+    public ResponseEntity<FuncionarioResponseDTO> ativaFuncionarioInativoPorId(@PathVariable UUID id) {
 
+        service.ativaFuncionarioInativoPorId(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+
+    @GetMapping("/funcionario-matricula-ativo")
+    public ResponseEntity<FuncionarioResponseDTO> buscaPorNumeroMatriculaAtivo(
+            @RequestParam String matricula) {
+
+        return ResponseEntity.ok(service.buscarPorNumeroMatriculaAtivo(matricula));
+    }
+
+    @GetMapping("funcionario-matricula-inativo")
+    public ResponseEntity<FuncionarioResponseDTO> buscarPorNumeroMatriculaInativo(
+            @RequestParam String matricula) {
+
+        return ResponseEntity.ok(service.buscarPorNumeroMatriculaInativo(matricula));
+    }
+
+    @GetMapping("listar-funcionarios-ativos")
+    public ResponseEntity<List<FuncionarioResponseDTO>> listarFuncionariosAtivos() {
+
+        return ResponseEntity.ok(service.listarFuncionariosAtivos());
+    }
+
+    @GetMapping("listar-funcionarios-inativos")
+    public ResponseEntity<List<FuncionarioResponseDTO>> listarFuncionariosInativos() {
+
+        return ResponseEntity.ok(service.listarFuncionariosInativos());
+    }
 }
+
+

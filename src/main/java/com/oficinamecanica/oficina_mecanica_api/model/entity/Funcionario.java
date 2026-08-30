@@ -22,3 +22,4 @@ public class Funcionario extends PessoaFisica {
 
     private LocalDate dataAdmissao;
 }
+

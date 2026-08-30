@@ -17,8 +17,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErroResponse> tratarErroGenerico(
-        Exception ex, HttpServletRequest request
-    ){
+            Exception ex, HttpServletRequest request
+    ) {
         return criaRespostaErro(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "ocorreu um erro inexperado",
@@ -32,13 +32,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErroResponse> tratarErroValidacao(
             MethodArgumentNotValidException ex,
             HttpServletRequest request
-    )
-    {
+    ) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(erro ->
-                        errors.put(
-                                erro.getField(),
-                                erro.getDefaultMessage()));
+                errors.put(
+                        erro.getField(),
+                        erro.getDefaultMessage()));
 
         return criaRespostaErro(
                 HttpStatus.BAD_REQUEST,
@@ -48,9 +47,21 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(OperacaoInvalidaException.class)
+    public ResponseEntity<ErroResponse> tratarCadastroAtivoException(
+            OperacaoInvalidaException ex, HttpServletRequest request) {
+
+        return criaRespostaErro(
+                HttpStatus.NOT_FOUND,
+                "Cadastro ativo/inativo",
+                ex.getMessage(),
+                request
+        );
+    }
+
     @ExceptionHandler(RegistroNaoEncontradoException.class)
     public ResponseEntity<ErroResponse> tratarRegistroNaoEncontradoException(
-            RegistroNaoEncontradoException ex, HttpServletRequest request){
+            RegistroNaoEncontradoException ex, HttpServletRequest request) {
 
         return criaRespostaErro(
                 HttpStatus.NOT_FOUND,
@@ -62,7 +73,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RegistroDuplicadoException.class)
     public ResponseEntity<ErroResponse> tratarRegistroDuplicadoException(
-            RegistroDuplicadoException ex, HttpServletRequest request){
+            RegistroDuplicadoException ex, HttpServletRequest request) {
         return criaRespostaErro(
                 HttpStatus.CONFLICT,
                 "Registro duplicado",
