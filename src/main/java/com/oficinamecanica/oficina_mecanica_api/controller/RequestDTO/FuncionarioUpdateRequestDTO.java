@@ -12,7 +12,7 @@ public record FuncionarioUpdateRequestDTO(
         String matricula,
         LocalDate dataAdmissao,
         Cargo cargo,
-        List<TelefoneRequestDTO> telefones,
+        List<TelefoneUpdateRequestDTO> telefones,
         EnderecoUpdateRequestDTO enderecos
 ) {
 }

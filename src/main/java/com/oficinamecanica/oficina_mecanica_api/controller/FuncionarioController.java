@@ -60,14 +60,14 @@ public class FuncionarioController implements ControllerUriSupport {
     public ResponseEntity<FuncionarioResponseDTO> buscaPorNumeroMatriculaAtivo(
             @RequestParam String matricula) {
 
-        return ResponseEntity.ok(service.buscarPorNumeroMatriculaAtivo(matricula));
+        return ResponseEntity.ok(service.buscarPorMatriculaAtivo(matricula));
     }
 
     @GetMapping("funcionario-matricula-inativo")
     public ResponseEntity<FuncionarioResponseDTO> buscarPorNumeroMatriculaInativo(
             @RequestParam String matricula) {
 
-        return ResponseEntity.ok(service.buscarPorNumeroMatriculaInativo(matricula));
+        return ResponseEntity.ok(service.buscarPorMatriculaInativo(matricula));
     }
 
     @GetMapping("listar-funcionarios-ativos")

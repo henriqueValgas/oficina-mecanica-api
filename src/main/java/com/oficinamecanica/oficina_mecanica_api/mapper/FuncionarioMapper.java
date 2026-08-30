@@ -19,6 +19,7 @@ public interface FuncionarioMapper {
             nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
     )
     @Mapping(target = "enderecos", ignore = true)
+    @Mapping(target = "telefones", ignore = true)
     void toUpdate(FuncionarioUpdateRequestDTO request, @MappingTarget Funcionario entity);
 
     FuncionarioResponseDTO toDto(Funcionario entity);
