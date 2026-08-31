@@ -28,11 +28,11 @@ public class ClientePessoaFisicaService {
     private final ClientePessoaFisicaMapper clientePessoaFisicaMapper;
 
     @Transactional
-    public ClientePessoaFisicaResponseDTO salvarPessoaFisica(ClientePessoaFisicaCreateRequestDTO request) {
+    public ClientePessoaFisicaResponseDTO salvar(ClientePessoaFisicaCreateRequestDTO request) {
 
         ClientePessoaFisica clientePessoaFisica = clientePessoaFisicaMapper.toEntity(request);
 
-        verificaCpfCadastrado(clientePessoaFisica.getCpf());
+        verificarCpfCadastrado(clientePessoaFisica.getCpf());
 
         List<Endereco> enderecos = pessoaBuilder.buildEnderecos(request.enderecos());
         enderecos.forEach(clientePessoaFisica::addEndereco);
@@ -46,9 +46,9 @@ public class ClientePessoaFisicaService {
     }
 
     @Transactional
-    public ClientePessoaFisicaResponseDTO atualizaPessoaFisica(UUID id, ClientePessoaFisicaUpdateRequestDTO request) {
+    public ClientePessoaFisicaResponseDTO atualizar(UUID id, ClientePessoaFisicaUpdateRequestDTO request) {
 
-        ClientePessoaFisica clientePessoaFisica = buscaClienteId(id);
+        ClientePessoaFisica clientePessoaFisica = buscarPorId(id);
 
         clientePessoaFisicaMapper.toUpdate(request, clientePessoaFisica);
 
@@ -75,51 +75,50 @@ public class ClientePessoaFisicaService {
     }
 
     @Transactional
-    public void inativarPessoaFisica(UUID id) {
+    public void inativar(UUID id) {
 
-        ClientePessoaFisica clientePessoaFisica = buscaClienteId(id);
+        ClientePessoaFisica clientePessoaFisica = buscarPorId(id);
 
         clientePessoaFisica.setAtivo(false);
     }
 
     @Transactional(readOnly = true)
-    public List<ClientePessoaFisicaResponseDTO> listarPessoaFisicaAtiva() {
+    public List<ClientePessoaFisicaResponseDTO> listarAtivos() {
 
         List<ClientePessoaFisica> listaClientes = repository.findAllByAtivoTrue();
         return listaClientes.stream().map(clientePessoaFisicaMapper::toDTO).toList();
     }
 
     @Transactional(readOnly = true)
-    public List<ClientePessoaFisicaResponseDTO> listarPessoaFisicaInativa() {
+    public List<ClientePessoaFisicaResponseDTO> listarInativos() {
 
         List<ClientePessoaFisica> listaInativas = repository.findAllByAtivoFalse();
         return listaInativas.stream().map(clientePessoaFisicaMapper::toDTO).toList();
     }
 
     @Transactional(readOnly = true)
-    public ClientePessoaFisicaResponseDTO buscarClientePessoaFisicaPorCpf(String cpf) {
+    public ClientePessoaFisicaResponseDTO buscarPorCpf(String cpf) {
 
-        ClientePessoaFisica clientePessoaFisica = buscaClientePorCpfEAtivo(cpf);
+        ClientePessoaFisica clientePessoaFisica = buscarPorCpfAtivo(cpf);
 
         return clientePessoaFisicaMapper.toDTO(clientePessoaFisica);
     }
 
-    private void verificaCpfCadastrado(String cpf) {
+    private void verificarCpfCadastrado(String cpf) {
         if (repository.existsByCpf(cpf)) {
             throw new RegistroDuplicadoException("Cpf ja cadastrado");
         }
     }
 
-    private ClientePessoaFisica buscaClientePorCpfEAtivo(String cpf) {
+    private ClientePessoaFisica buscarPorCpfAtivo(String cpf) {
 
         return repository.findByCpfAndAtivoTrue(cpf)
                 .orElseThrow(() -> new RegistroNaoEncontradoException("Cliente não encontrado"));
     }
 
-    private ClientePessoaFisica buscaClienteId(UUID id) {
+    private ClientePessoaFisica buscarPorId(UUID id) {
 
         return repository.findByIdAndAtivoTrue(id)
                 .orElseThrow(() -> new RegistroNaoEncontradoException("Cliente não encontrado"));
     }
-
 }

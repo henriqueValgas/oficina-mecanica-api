@@ -38,7 +38,7 @@ public class FuncionarioService {
     @Transactional
     public FuncionarioResponseDTO salvar(@Valid FuncionarioCreateRequestDTO request) {
 
-        verificarFuncionarioCadastrado(request.cpf());
+        verificarCpfCadastrado(request.cpf());
 
         Funcionario funcionario = funcionarioMapper.toEntity(request);
 
@@ -54,22 +54,22 @@ public class FuncionarioService {
     }
 
     @Transactional
-    public FuncionarioResponseDTO update(UUID id, FuncionarioUpdateRequestDTO request) {
+    public FuncionarioResponseDTO atualizar(UUID id, FuncionarioUpdateRequestDTO request) {
 
-        Funcionario funcionario = buscaFuncionarioPorId(id);
+        Funcionario funcionario = buscarPorId(id);
 
         funcionarioMapper.toUpdate(request, funcionario);
 
-        atualizaEndereco(funcionario, request.enderecos());
+        atualizarEndereco(funcionario, request.enderecos());
 
-        atualizaTelefones(funcionario, request.telefones());
+        atualizarTelefones(funcionario, request.telefones());
 
         return funcionarioMapper.toDto(funcionario);
     }
 
     @Transactional
-    public void inativarFuncionarioPorCpf(UUID id) {
-        Funcionario funcionario = buscaFuncionarioPorId(id);
+    public void inativar(UUID id) {
+        Funcionario funcionario = buscarPorId(id);
         if (!funcionario.isAtivo()) {
             throw new OperacaoInvalidaException("Funcionario esta inativo");
         }
@@ -77,8 +77,8 @@ public class FuncionarioService {
     }
 
     @Transactional
-    public void ativaFuncionarioInativoPorId(UUID id) {
-        Funcionario funcionario = buscaFuncionarioPorId(id);
+    public void reativar(UUID id) {
+        Funcionario funcionario = buscarPorId(id);
         if (funcionario.isAtivo()) {
             throw new OperacaoInvalidaException("Funcionario esta ativo");
         }
@@ -86,7 +86,7 @@ public class FuncionarioService {
     }
 
     @Transactional(readOnly = true)
-    public FuncionarioResponseDTO buscarPorMatriculaAtivo(String matricula) {
+    public FuncionarioResponseDTO buscarPorMatricula(String matricula) {
 
         Funcionario funcionario = repository.findByMatriculaAndAtivoTrue(matricula)
                 .orElseThrow(() -> new RegistroNaoEncontradoException("Funcionario não encontrado"));
@@ -95,7 +95,7 @@ public class FuncionarioService {
     }
 
     @Transactional(readOnly = true)
-    public FuncionarioResponseDTO buscarPorMatriculaInativo(String matricula) {
+    public FuncionarioResponseDTO buscarPorMatriculaInativa(String matricula) {
 
         Funcionario funcionario = repository.findByMatriculaAndAtivoFalse(matricula)
                 .orElseThrow(() -> new RegistroNaoEncontradoException("Funcionario não encontrado"));
@@ -104,17 +104,17 @@ public class FuncionarioService {
     }
 
     @Transactional(readOnly = true)
-    public List<FuncionarioResponseDTO> listarFuncionariosAtivos() {
-        List<Funcionario> funcionarios = repository.findAllByAtivoTrue();
+    public List<FuncionarioResponseDTO> listarAtivos() {
+        List<Funcionario> funcionariosAtivos = repository.findAllByAtivoTrue();
 
-        return funcionarios.stream().map(funcionarioMapper::toDto).toList();
+        return funcionariosAtivos.stream().map(funcionarioMapper::toDto).toList();
     }
 
     @Transactional(readOnly = true)
-    public List<FuncionarioResponseDTO> listarFuncionariosInativos() {
-        List<Funcionario> listaFuncionariosInativos = repository.findAllByAtivoFalse();
+    public List<FuncionarioResponseDTO> listarInativos() {
+        List<Funcionario> funcionariosInativos = repository.findAllByAtivoFalse();
 
-        return listaFuncionariosInativos.stream().map(funcionarioMapper::toDto).toList();
+        return funcionariosInativos.stream().map(funcionarioMapper::toDto).toList();
     }
 
     private void preencherEnderecoComViaCep(Funcionario funcionario) {
@@ -129,18 +129,18 @@ public class FuncionarioService {
         });
     }
 
-    private Funcionario buscaFuncionarioPorId(UUID id) {
+    private Funcionario buscarPorId(UUID id) {
         return repository.findById(id).orElseThrow(
                 () -> new RegistroNaoEncontradoException("Funcionario nâo cadastrado"));
     }
 
-    private void verificarFuncionarioCadastrado(String cpf) {
+    private void verificarCpfCadastrado(String cpf) {
         if (repository.existsByCpf(cpf)) {
             throw new RegistroDuplicadoException("funcionario ja possui cadastro");
         }
     }
 
-    private void atualizaEndereco(Funcionario funcionario, EnderecoUpdateRequestDTO request) {
+    private void atualizarEndereco(Funcionario funcionario, EnderecoUpdateRequestDTO request) {
         if (request == null) {
             return;
         }
@@ -157,7 +157,7 @@ public class FuncionarioService {
         }
     }
 
-    private void atualizaTelefones(Funcionario funcionario, List<TelefoneUpdateRequestDTO> requests) {
+    private void atualizarTelefones(Funcionario funcionario, List<TelefoneUpdateRequestDTO> requests) {
         if (requests == null) {
             return;
         }

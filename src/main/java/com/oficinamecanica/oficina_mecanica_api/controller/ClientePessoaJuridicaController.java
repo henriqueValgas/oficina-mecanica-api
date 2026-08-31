@@ -25,7 +25,7 @@ public class ClientePessoaJuridicaController implements ControllerUriSupport {
     public ResponseEntity<ClientePessoaJuridicaResponseDTO> salvarPessoaJurica(
             @Valid @RequestBody ClientePessoaJuridicaCreateRequestDTO request) {
 
-        ClientePessoaJuridicaResponseDTO response = service.salvarPessoaJuridica(request);
+        ClientePessoaJuridicaResponseDTO response = service.salvar(request);
         URI uri = buildLocationUri(response.id());
 
         return ResponseEntity.created(uri).body(response);
@@ -36,13 +36,13 @@ public class ClientePessoaJuridicaController implements ControllerUriSupport {
             @PathVariable UUID id,
             @Valid @RequestBody ClientePessoaJuridicaUpdateRequestDTO request){
 
-        return ResponseEntity.ok(service.atualizaPessoaJuridica(id, request));
+        return ResponseEntity.ok(service.atualizar(id, request));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ClientePessoaJuridicaResponseDTO> inativaPessoaJurica(@PathVariable UUID id) {
 
-        service.inativaPessoaJurica(id);
+        service.inativar(id);
 
         return ResponseEntity.noContent().build();
     }
@@ -51,18 +51,18 @@ public class ClientePessoaJuridicaController implements ControllerUriSupport {
     public ResponseEntity<ClientePessoaJuridicaResponseDTO> buscaPessoaJuridica(
             @RequestBody BuscaPessoaJuridicaPorCnpjRequestDTO request) {
 
-        return ResponseEntity.ok(service.buscarPessoaJuridicaPorCnpj(request.cnpj()));
+        return ResponseEntity.ok(service.buscarPorCnpj(request.cnpj()));
     }
 
     @GetMapping("/listar-ativos")
     public ResponseEntity<List<ClientePessoaJuridicaResponseDTO>> listaPessoaJuridicaAtivos() {
 
-        return ResponseEntity.ok(service.listarPessoaJuridicaAtivos());
+        return ResponseEntity.ok(service.listarAtivos());
     }
 
     @GetMapping("/listar-inativos")
     public ResponseEntity<List<ClientePessoaJuridicaResponseDTO>> listaPessoaJuridicaInativos() {
 
-        return ResponseEntity.ok(service.listarPessoaJuridicaInativos());
+        return ResponseEntity.ok(service.listarInativos());
     }
 }

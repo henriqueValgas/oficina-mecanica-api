@@ -24,7 +24,7 @@ public class ClientePessoaFisicaController implements ControllerUriSupport {
     @PostMapping
     public ResponseEntity<ClientePessoaFisicaResponseDTO> salvarPessoaFisica(@Valid @RequestBody ClientePessoaFisicaCreateRequestDTO request) {
 
-        ClientePessoaFisicaResponseDTO response = service.salvarPessoaFisica(request);
+        ClientePessoaFisicaResponseDTO response = service.salvar(request);
         URI uri = buildLocationUri(response.id());
 
         return ResponseEntity.created(uri).body(response);
@@ -36,13 +36,13 @@ public class ClientePessoaFisicaController implements ControllerUriSupport {
             @Valid @RequestBody ClientePessoaFisicaUpdateRequestDTO request)
     {
 
-        return ResponseEntity.ok(service.atualizaPessoaFisica(id, request));
+        return ResponseEntity.ok(service.atualizar(id, request));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ClientePessoaFisicaResponseDTO> inativarPessoaFisica(@PathVariable UUID id) {
 
-        service.inativarPessoaFisica(id);
+        service.inativar(id);
 
         return ResponseEntity.noContent().build();
     }
@@ -50,18 +50,18 @@ public class ClientePessoaFisicaController implements ControllerUriSupport {
     @PostMapping("/buscar-por-cpf")
     public ResponseEntity<ClientePessoaFisicaResponseDTO> listarPessoaFisica(@Valid @RequestBody BuscaPessoaFisicaPorCpfRequestDTO request) {
 
-        return ResponseEntity.ok(service.buscarClientePessoaFisicaPorCpf(request.cpf()));
+        return ResponseEntity.ok(service.buscarPorCpf(request.cpf()));
     }
 
     @GetMapping("/listar-ativos")
     public ResponseEntity<List<ClientePessoaFisicaResponseDTO>> listarPessoaFisicaAtiva() {
 
-        return ResponseEntity.ok(service.listarPessoaFisicaAtiva());
+        return ResponseEntity.ok(service.listarAtivos());
     }
 
     @GetMapping("/listar-inativos")
     public ResponseEntity<List<ClientePessoaFisicaResponseDTO>> listarPessoaFisicaInativos() {
 
-        return ResponseEntity.ok(service.listarPessoaFisicaInativa());
+        return ResponseEntity.ok(service.listarInativos());
     }
 }

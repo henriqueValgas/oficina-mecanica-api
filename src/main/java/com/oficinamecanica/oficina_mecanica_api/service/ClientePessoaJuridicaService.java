@@ -29,11 +29,11 @@ public class ClientePessoaJuridicaService {
     private final ClientePessoaJuridicaMapper mapperPessoaJuridica;
 
     @Transactional
-    public ClientePessoaJuridicaResponseDTO salvarPessoaJuridica(ClientePessoaJuridicaCreateRequestDTO request) {
+    public ClientePessoaJuridicaResponseDTO salvar(ClientePessoaJuridicaCreateRequestDTO request) {
 
         ClientePessoaJuridica clientePessoaJuridica = mapperPessoaJuridica.toEntity(request);
 
-        verificaCnpjCadastrado(clientePessoaJuridica.getCnpj());
+        verificarCnpjCadastrado(clientePessoaJuridica.getCnpj());
 
         List<Endereco> enderecos = pessoaBuilder.buildEnderecos(request.enderecos());
 
@@ -49,9 +49,9 @@ public class ClientePessoaJuridicaService {
     }
 
     @Transactional
-    public ClientePessoaJuridicaResponseDTO atualizaPessoaJuridica(UUID id, ClientePessoaJuridicaUpdateRequestDTO request) {
+    public ClientePessoaJuridicaResponseDTO atualizar(UUID id, ClientePessoaJuridicaUpdateRequestDTO request) {
 
-        ClientePessoaJuridica clientePessoaJuridica = buscaClienteId(id);
+        ClientePessoaJuridica clientePessoaJuridica = buscarPorId(id);
 
         mapperPessoaJuridica.toUpdate(request, clientePessoaJuridica);
 
@@ -79,49 +79,49 @@ public class ClientePessoaJuridicaService {
     }
 
     @Transactional
-    public void inativaPessoaJurica(UUID id) {
+    public void inativar(UUID id) {
 
-        ClientePessoaJuridica clientePessoaJuridica = buscaClienteId(id);
+        ClientePessoaJuridica clientePessoaJuridica = buscarPorId(id);
 
         clientePessoaJuridica.setAtivo(false);
     }
 
     @Transactional(readOnly = true)
-    public List<ClientePessoaJuridicaResponseDTO> listarPessoaJuridicaAtivos() {
+    public List<ClientePessoaJuridicaResponseDTO> listarAtivos() {
 
-        List<ClientePessoaJuridica> listaClientesPessoaJuridicaAtivos = repository.findAllByAtivoTrue();
+        List<ClientePessoaJuridica> clientesAtivos = repository.findAllByAtivoTrue();
 
-        return listaClientesPessoaJuridicaAtivos.stream().map(mapperPessoaJuridica::toDTO).toList();
+        return clientesAtivos.stream().map(mapperPessoaJuridica::toDTO).toList();
     }
 
     @Transactional(readOnly = true)
-    public List<ClientePessoaJuridicaResponseDTO> listarPessoaJuridicaInativos() {
+    public List<ClientePessoaJuridicaResponseDTO> listarInativos() {
 
-        List<ClientePessoaJuridica> listaClientesPessoaJuridicaInativos = repository.findAllByAtivoFalse();
+        List<ClientePessoaJuridica> clientesInativos = repository.findAllByAtivoFalse();
 
-        return listaClientesPessoaJuridicaInativos.stream().map(mapperPessoaJuridica::toDTO).toList();
+        return clientesInativos.stream().map(mapperPessoaJuridica::toDTO).toList();
     }
 
     @Transactional
-    public ClientePessoaJuridicaResponseDTO buscarPessoaJuridicaPorCnpj(@CNPJ String cnpj) {
+    public ClientePessoaJuridicaResponseDTO buscarPorCnpj(@CNPJ String cnpj) {
 
-        ClientePessoaJuridica clientePessoaJuridica = buscarPessoaJuridicaCnpjEAtivo(cnpj);
+        ClientePessoaJuridica clientePessoaJuridica = buscarPorCnpjAtivo(cnpj);
 
         return mapperPessoaJuridica.toDTO(clientePessoaJuridica);
     }
 
-    private void verificaCnpjCadastrado(String cnpj){
+    private void verificarCnpjCadastrado(String cnpj){
         if (repository.existsByCnpj(cnpj)) {
             throw new RegistroDuplicadoException("Cliente ja possui cadastro");
         }
     }
 
-    private ClientePessoaJuridica buscaClienteId(UUID id) {
+    private ClientePessoaJuridica buscarPorId(UUID id) {
         return repository.findById(id).orElseThrow(
                 () -> new RegistroNaoEncontradoException("Cliente não encontrado"));
     }
 
-    public ClientePessoaJuridica buscarPessoaJuridicaCnpjEAtivo(String cnpj) {
+    private ClientePessoaJuridica buscarPorCnpjAtivo(String cnpj) {
          return repository.findByCnpjAndAtivoTrue(cnpj)
                  .orElseThrow(() -> new RegistroNaoEncontradoException("Cliente não encontrado"));
     }

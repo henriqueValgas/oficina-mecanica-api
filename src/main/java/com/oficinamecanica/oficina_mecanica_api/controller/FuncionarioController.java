@@ -35,14 +35,14 @@ public class FuncionarioController implements ControllerUriSupport {
             @PathVariable UUID id,
             @RequestBody @Valid FuncionarioUpdateRequestDTO request) {
 
-        return ResponseEntity.ok(service.update(id, request));
+        return ResponseEntity.ok(service.atualizar(id, request));
     }
 
     @DeleteMapping("/{id}/inativar")
     public ResponseEntity<FuncionarioResponseDTO> inativarFuncionarioPorId(
             @PathVariable UUID id) {
 
-        service.inativarFuncionarioPorCpf(id);
+        service.inativar(id);
 
         return ResponseEntity.noContent().build();
     }
@@ -50,7 +50,7 @@ public class FuncionarioController implements ControllerUriSupport {
     @PatchMapping("/{id}/ativar")
     public ResponseEntity<FuncionarioResponseDTO> ativaFuncionarioInativoPorId(@PathVariable UUID id) {
 
-        service.ativaFuncionarioInativoPorId(id);
+        service.reativar(id);
 
         return ResponseEntity.noContent().build();
     }
@@ -60,26 +60,26 @@ public class FuncionarioController implements ControllerUriSupport {
     public ResponseEntity<FuncionarioResponseDTO> buscaPorNumeroMatriculaAtivo(
             @RequestParam String matricula) {
 
-        return ResponseEntity.ok(service.buscarPorMatriculaAtivo(matricula));
+        return ResponseEntity.ok(service.buscarPorMatricula(matricula));
     }
 
     @GetMapping("funcionario-matricula-inativo")
     public ResponseEntity<FuncionarioResponseDTO> buscarPorNumeroMatriculaInativo(
             @RequestParam String matricula) {
 
-        return ResponseEntity.ok(service.buscarPorMatriculaInativo(matricula));
+        return ResponseEntity.ok(service.buscarPorMatriculaInativa(matricula));
     }
 
     @GetMapping("listar-funcionarios-ativos")
     public ResponseEntity<List<FuncionarioResponseDTO>> listarFuncionariosAtivos() {
 
-        return ResponseEntity.ok(service.listarFuncionariosAtivos());
+        return ResponseEntity.ok(service.listarAtivos());
     }
 
     @GetMapping("listar-funcionarios-inativos")
     public ResponseEntity<List<FuncionarioResponseDTO>> listarFuncionariosInativos() {
 
-        return ResponseEntity.ok(service.listarFuncionariosInativos());
+        return ResponseEntity.ok(service.listarInativos());
     }
 }
 
