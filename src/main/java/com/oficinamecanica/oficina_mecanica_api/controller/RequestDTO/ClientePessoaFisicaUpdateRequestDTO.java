@@ -2,7 +2,7 @@ package com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO;
 
 import java.util.List;
 
-public record PessoaFisicaUpdateRequestDTO(
+public record ClientePessoaFisicaUpdateRequestDTO(
 
         String nome,
 

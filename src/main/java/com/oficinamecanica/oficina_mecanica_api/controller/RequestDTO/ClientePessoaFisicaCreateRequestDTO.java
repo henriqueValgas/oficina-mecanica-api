@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import java.util.List;
 
-public record PessoaFisicaCreateRequestDTO(
+public record ClientePessoaFisicaCreateRequestDTO(
 
         @NotBlank(message = "Nome é campo obrigatório")
         String nome,
