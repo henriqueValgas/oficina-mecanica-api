@@ -1,10 +1,10 @@
 package com.oficinamecanica.oficina_mecanica_api.controller;
 
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.BuscaPessoaJuridicaPorCnpjRequestDTO;
-import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.PessoaJuridicaCreateRequestDTO;
-import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.PessoaJuridicaUpdateRequestDTO;
-import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.PessoaJuridicaResponseDTO;
-import com.oficinamecanica.oficina_mecanica_api.service.PessoaJuridicaService;
+import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.ClientePessoaJuridicaCreateRequestDTO;
+import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.ClientePessoaJuridicaUpdateRequestDTO;
+import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.ClientePessoaJuridicaResponseDTO;
+import com.oficinamecanica.oficina_mecanica_api.service.ClientePessoaJuridicaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,30 +17,30 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/pessoa_juridica")
 @RequiredArgsConstructor
-public class PessoaJuridicaController implements ControllerUriSupport {
+public class ClientePessoaJuridicaController implements ControllerUriSupport {
 
-    private final PessoaJuridicaService service;
+    private final ClientePessoaJuridicaService service;
 
     @PostMapping
-    public ResponseEntity<PessoaJuridicaResponseDTO> salvarPessoaJurica(
-            @Valid @RequestBody PessoaJuridicaCreateRequestDTO request) {
+    public ResponseEntity<ClientePessoaJuridicaResponseDTO> salvarPessoaJurica(
+            @Valid @RequestBody ClientePessoaJuridicaCreateRequestDTO request) {
 
-        PessoaJuridicaResponseDTO response = service.salvarPessoaJuridica(request);
+        ClientePessoaJuridicaResponseDTO response = service.salvarPessoaJuridica(request);
         URI uri = buildLocationUri(response.id());
 
         return ResponseEntity.created(uri).body(response);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<PessoaJuridicaResponseDTO> atualizaPessoaJurica(
+    public ResponseEntity<ClientePessoaJuridicaResponseDTO> atualizaPessoaJurica(
             @PathVariable UUID id,
-            @Valid @RequestBody PessoaJuridicaUpdateRequestDTO request){
+            @Valid @RequestBody ClientePessoaJuridicaUpdateRequestDTO request){
 
         return ResponseEntity.ok(service.atualizaPessoaJuridica(id, request));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<PessoaJuridicaResponseDTO> inativaPessoaJurica(@PathVariable UUID id) {
+    public ResponseEntity<ClientePessoaJuridicaResponseDTO> inativaPessoaJurica(@PathVariable UUID id) {
 
         service.inativaPessoaJurica(id);
 
@@ -48,20 +48,20 @@ public class PessoaJuridicaController implements ControllerUriSupport {
     }
 
     @PostMapping("/buscar-por-cnpj")
-    public ResponseEntity<PessoaJuridicaResponseDTO> buscaPessoaJuridica(
+    public ResponseEntity<ClientePessoaJuridicaResponseDTO> buscaPessoaJuridica(
             @RequestBody BuscaPessoaJuridicaPorCnpjRequestDTO request) {
 
         return ResponseEntity.ok(service.buscarPessoaJuridicaPorCnpj(request.cnpj()));
     }
 
     @GetMapping("/listar-ativos")
-    public ResponseEntity<List<PessoaJuridicaResponseDTO>> listaPessoaJuridicaAtivos() {
+    public ResponseEntity<List<ClientePessoaJuridicaResponseDTO>> listaPessoaJuridicaAtivos() {
 
         return ResponseEntity.ok(service.listarPessoaJuridicaAtivos());
     }
 
     @GetMapping("/listar-inativos")
-    public ResponseEntity<List<PessoaJuridicaResponseDTO>> listaPessoaJuridicaInativos() {
+    public ResponseEntity<List<ClientePessoaJuridicaResponseDTO>> listaPessoaJuridicaInativos() {
 
         return ResponseEntity.ok(service.listarPessoaJuridicaInativos());
     }

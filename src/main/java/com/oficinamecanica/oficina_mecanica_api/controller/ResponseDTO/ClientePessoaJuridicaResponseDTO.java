@@ -2,7 +2,7 @@ package com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO;
 
 import java.util.UUID;
 
-public record PessoaJuridicaResponseDTO(
+public record ClientePessoaJuridicaResponseDTO(
 
         UUID id,
         String cnpj,

@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.br.CNPJ;
 
 import java.util.List;
 
-public record PessoaJuridicaCreateRequestDTO(
+public record ClientePessoaJuridicaCreateRequestDTO(
 
         @CNPJ
         String cnpj,

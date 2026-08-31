@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PessoaJuridica extends Pessoa {
+public abstract class PessoaJuridica extends Pessoa {
 
     @Column(name = "cnpj")
     private String cnpj;

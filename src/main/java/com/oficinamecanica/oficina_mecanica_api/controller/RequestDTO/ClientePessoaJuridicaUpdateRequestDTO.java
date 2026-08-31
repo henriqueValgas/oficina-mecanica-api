@@ -3,7 +3,7 @@ package com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO;
 import java.util.List;
 import java.util.UUID;
 
-public record PessoaJuridicaUpdateRequestDTO(
+public record ClientePessoaJuridicaUpdateRequestDTO(
 
         UUID id,
 
