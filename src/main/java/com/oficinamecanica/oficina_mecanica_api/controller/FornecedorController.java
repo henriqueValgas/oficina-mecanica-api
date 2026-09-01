@@ -13,17 +13,17 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/fornecedor")
+@RequestMapping("/fornecedores")
 @RequiredArgsConstructor
 public class FornecedorController implements ControllerUriSupport {
 
     private final FornecedorService service;
 
     @PostMapping
-    public ResponseEntity<FornecedorResponseDTO> salvarFornecedor(
+    public ResponseEntity<FornecedorResponseDTO> salvar(
             @Valid @RequestBody FornecedorRequestDTO request) {
 
-        FornecedorResponseDTO response = service.salvarFornecedor(request);
+        FornecedorResponseDTO response = service.salvar(request);
 
         URI uri = buildLocationUri(response.id());
 
@@ -31,38 +31,32 @@ public class FornecedorController implements ControllerUriSupport {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<FornecedorResponseDTO> atualizaFornecedor(
+    public ResponseEntity<FornecedorResponseDTO> atualizar(
             @PathVariable UUID id,
             @RequestBody FornecedorRequestDTO request) {
 
-        FornecedorResponseDTO response = service.atualizaFornecedor(id, request);
+        FornecedorResponseDTO response = service.atualizar(id, request);
 
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<FornecedorResponseDTO> inativarFornecedor(@PathVariable UUID id) {
+    public ResponseEntity<Void> inativar(@PathVariable UUID id) {
 
-        service.inativarFornecedor(id);
+        service.inativar(id);
 
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/listar-fornecedor-ativos")
-    public ResponseEntity<List<FornecedorResponseDTO>> listarFornecedorAtivos(){
+    @GetMapping
+    public ResponseEntity<List<FornecedorResponseDTO>> listarFornecedores(){
 
-        List<FornecedorResponseDTO> listaFornecedorAtivos = service.listarFornecedorAtivos();
-
-        return ResponseEntity.ok(listaFornecedorAtivos);
+        return ResponseEntity.ok(service.listarAtivos());
     }
 
-    @GetMapping("lista-fornecedor-inativos")
-    public ResponseEntity<List<FornecedorResponseDTO>> listarFornecedorInativos(){
+    @GetMapping("/inativos")
+    public ResponseEntity<List<FornecedorResponseDTO>> listarFornecedoresInativos(){
 
-        List<FornecedorResponseDTO> listaFornecedorInativos = service.listarFornecedorInativo();
-
-        return ResponseEntity.ok(listaFornecedorInativos);
-
+        return ResponseEntity.ok(service.listarInativos());
     }
-
 }

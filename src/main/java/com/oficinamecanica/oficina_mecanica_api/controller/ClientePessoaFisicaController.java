@@ -15,14 +15,14 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/pessoa_fisica")
+@RequestMapping("/clientesPF")
 @RequiredArgsConstructor
 public class ClientePessoaFisicaController implements ControllerUriSupport {
 
     private final ClientePessoaFisicaService service;
 
     @PostMapping
-    public ResponseEntity<ClientePessoaFisicaResponseDTO> salvarPessoaFisica(@Valid @RequestBody ClientePessoaFisicaCreateRequestDTO request) {
+    public ResponseEntity<ClientePessoaFisicaResponseDTO> salvar(@Valid @RequestBody ClientePessoaFisicaCreateRequestDTO request) {
 
         ClientePessoaFisicaResponseDTO response = service.salvar(request);
         URI uri = buildLocationUri(response.id());
@@ -31,7 +31,7 @@ public class ClientePessoaFisicaController implements ControllerUriSupport {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ClientePessoaFisicaResponseDTO> atualizaPessoaFisica(
+    public ResponseEntity<ClientePessoaFisicaResponseDTO> atualizar(
             @PathVariable UUID id,
             @Valid @RequestBody ClientePessoaFisicaUpdateRequestDTO request)
     {
@@ -39,28 +39,28 @@ public class ClientePessoaFisicaController implements ControllerUriSupport {
         return ResponseEntity.ok(service.atualizar(id, request));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ClientePessoaFisicaResponseDTO> inativarPessoaFisica(@PathVariable UUID id) {
+    @DeleteMapping("/{id}/inativar")
+    public ResponseEntity<ClientePessoaFisicaResponseDTO> inativar(@PathVariable UUID id) {
 
         service.inativar(id);
 
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/buscar-por-cpf")
-    public ResponseEntity<ClientePessoaFisicaResponseDTO> listarPessoaFisica(@Valid @RequestBody BuscaPessoaFisicaPorCpfRequestDTO request) {
+    @PostMapping("/cpf")
+    public ResponseEntity<ClientePessoaFisicaResponseDTO> buscarPorCpf(@Valid @RequestBody BuscaPessoaFisicaPorCpfRequestDTO request) {
 
         return ResponseEntity.ok(service.buscarPorCpf(request.cpf()));
     }
 
-    @GetMapping("/listar-ativos")
-    public ResponseEntity<List<ClientePessoaFisicaResponseDTO>> listarPessoaFisicaAtiva() {
+    @GetMapping
+    public ResponseEntity<List<ClientePessoaFisicaResponseDTO>> listarClientes() {
 
         return ResponseEntity.ok(service.listarAtivos());
     }
 
-    @GetMapping("/listar-inativos")
-    public ResponseEntity<List<ClientePessoaFisicaResponseDTO>> listarPessoaFisicaInativos() {
+    @GetMapping("/inativos")
+    public ResponseEntity<List<ClientePessoaFisicaResponseDTO>> listarClientesInativos() {
 
         return ResponseEntity.ok(service.listarInativos());
     }

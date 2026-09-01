@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/funcionario")
+@RequestMapping("/funcionarios")
 @RequiredArgsConstructor
 public class FuncionarioController implements ControllerUriSupport {
 
@@ -31,7 +31,7 @@ public class FuncionarioController implements ControllerUriSupport {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<FuncionarioResponseDTO> update(
+    public ResponseEntity<FuncionarioResponseDTO> atualizar(
             @PathVariable UUID id,
             @RequestBody @Valid FuncionarioUpdateRequestDTO request) {
 
@@ -39,7 +39,7 @@ public class FuncionarioController implements ControllerUriSupport {
     }
 
     @DeleteMapping("/{id}/inativar")
-    public ResponseEntity<FuncionarioResponseDTO> inativarFuncionarioPorId(
+    public ResponseEntity<Void> inativar(
             @PathVariable UUID id) {
 
         service.inativar(id);
@@ -47,8 +47,8 @@ public class FuncionarioController implements ControllerUriSupport {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}/ativar")
-    public ResponseEntity<FuncionarioResponseDTO> ativaFuncionarioInativoPorId(@PathVariable UUID id) {
+    @PatchMapping("/{id}/reativar")
+    public ResponseEntity<Void> reativar(@PathVariable UUID id) {
 
         service.reativar(id);
 
@@ -56,27 +56,27 @@ public class FuncionarioController implements ControllerUriSupport {
     }
 
 
-    @GetMapping("/funcionario-matricula-ativo")
-    public ResponseEntity<FuncionarioResponseDTO> buscaPorNumeroMatriculaAtivo(
+    @GetMapping("/matricula")
+    public ResponseEntity<FuncionarioResponseDTO> buscarPorNumeroMatricula(
             @RequestParam String matricula) {
 
         return ResponseEntity.ok(service.buscarPorMatricula(matricula));
     }
 
-    @GetMapping("funcionario-matricula-inativo")
+    @GetMapping("/matricula/inativo")
     public ResponseEntity<FuncionarioResponseDTO> buscarPorNumeroMatriculaInativo(
             @RequestParam String matricula) {
 
         return ResponseEntity.ok(service.buscarPorMatriculaInativa(matricula));
     }
 
-    @GetMapping("listar-funcionarios-ativos")
-    public ResponseEntity<List<FuncionarioResponseDTO>> listarFuncionariosAtivos() {
+    @GetMapping()
+    public ResponseEntity<List<FuncionarioResponseDTO>> listarFuncionarios() {
 
         return ResponseEntity.ok(service.listarAtivos());
     }
 
-    @GetMapping("listar-funcionarios-inativos")
+    @GetMapping("/inativos")
     public ResponseEntity<List<FuncionarioResponseDTO>> listarFuncionariosInativos() {
 
         return ResponseEntity.ok(service.listarInativos());

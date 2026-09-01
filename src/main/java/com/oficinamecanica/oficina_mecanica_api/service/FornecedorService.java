@@ -22,7 +22,7 @@ public class FornecedorService {
     private final FornecedorMapper mapper;
 
     @Transactional
-    public FornecedorResponseDTO salvarFornecedor(@Valid FornecedorRequestDTO request) {
+    public FornecedorResponseDTO salvar(@Valid FornecedorRequestDTO request) {
 
         Fornecedor fornecedor = mapper.toEntity(request);
 
@@ -32,9 +32,9 @@ public class FornecedorService {
     }
 
     @Transactional
-    public FornecedorResponseDTO atualizaFornecedor(UUID id, FornecedorRequestDTO request) {
+    public FornecedorResponseDTO atualizar(UUID id, FornecedorRequestDTO request) {
 
-        Fornecedor fornecedor = buscarFornecedorPorId(id);
+        Fornecedor fornecedor = buscarPorId(id);
 
         mapper.toUpdate(request, fornecedor);
 
@@ -45,37 +45,37 @@ public class FornecedorService {
 
 
     @Transactional
-    public void inativarFornecedor(UUID id) {
+    public void inativar(UUID id) {
 
-        Fornecedor fornecedor = buscarFornecedorPorIdEAtivo(id);
+        Fornecedor fornecedor = buscarPorIdAtivo(id);
 
        fornecedor.setAtivo(false);
     }
 
     @Transactional(readOnly = true)
-    public List<FornecedorResponseDTO> listarFornecedorAtivos() {
+    public List<FornecedorResponseDTO> listarAtivos() {
 
-        List<Fornecedor> listarFornecedorAtivo = repository.findAllByAtivoTrue();
+        List<Fornecedor> listarAtivos = repository.findAllByAtivoTrue();
 
-        return listarFornecedorAtivo.stream().map(mapper::toDTO).toList();
+        return listarAtivos.stream().map(mapper::toDTO).toList();
     }
 
     @Transactional(readOnly = true)
-    public List<FornecedorResponseDTO> listarFornecedorInativo(){
+    public List<FornecedorResponseDTO> listarInativos(){
 
-        List<Fornecedor> listarFornecedorInativo = repository.findAllByAtivoFalse();
+        List<Fornecedor> listarInativos = repository.findAllByAtivoFalse();
 
-        return listarFornecedorInativo.stream().map(mapper::toDTO).toList();
+        return listarInativos.stream().map(mapper::toDTO).toList();
     }
 
-    private Fornecedor buscarFornecedorPorId(UUID id) {
+    private Fornecedor buscarPorId(UUID id) {
 
         return repository.findById(id)
                 .orElseThrow(() -> new RegistroNaoEncontradoException("Fornecedor não encontrado"));
 
     }
 
-    private Fornecedor buscarFornecedorPorIdEAtivo(UUID id){
+    private Fornecedor buscarPorIdAtivo(UUID id){
 
         return repository.findByIdAndAtivoTrue(id)
                 .orElseThrow(()-> new RegistroNaoEncontradoException("Fornecedor não encontrado"));

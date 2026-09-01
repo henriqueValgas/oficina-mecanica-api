@@ -15,14 +15,14 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/pessoa_juridica")
+@RequestMapping("/clientesPJ")
 @RequiredArgsConstructor
 public class ClientePessoaJuridicaController implements ControllerUriSupport {
 
     private final ClientePessoaJuridicaService service;
 
     @PostMapping
-    public ResponseEntity<ClientePessoaJuridicaResponseDTO> salvarPessoaJurica(
+    public ResponseEntity<ClientePessoaJuridicaResponseDTO> salvar(
             @Valid @RequestBody ClientePessoaJuridicaCreateRequestDTO request) {
 
         ClientePessoaJuridicaResponseDTO response = service.salvar(request);
@@ -32,36 +32,36 @@ public class ClientePessoaJuridicaController implements ControllerUriSupport {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ClientePessoaJuridicaResponseDTO> atualizaPessoaJurica(
+    public ResponseEntity<ClientePessoaJuridicaResponseDTO> atualizar(
             @PathVariable UUID id,
             @Valid @RequestBody ClientePessoaJuridicaUpdateRequestDTO request){
 
         return ResponseEntity.ok(service.atualizar(id, request));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ClientePessoaJuridicaResponseDTO> inativaPessoaJurica(@PathVariable UUID id) {
+    @DeleteMapping("/{id}/inativar")
+    public ResponseEntity<ClientePessoaJuridicaResponseDTO> inativar(@PathVariable UUID id) {
 
         service.inativar(id);
 
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/buscar-por-cnpj")
-    public ResponseEntity<ClientePessoaJuridicaResponseDTO> buscaPessoaJuridica(
+    @PostMapping("/cnpj")
+    public ResponseEntity<ClientePessoaJuridicaResponseDTO> buscaPorCnpf(
             @RequestBody BuscaPessoaJuridicaPorCnpjRequestDTO request) {
 
         return ResponseEntity.ok(service.buscarPorCnpj(request.cnpj()));
     }
 
-    @GetMapping("/listar-ativos")
-    public ResponseEntity<List<ClientePessoaJuridicaResponseDTO>> listaPessoaJuridicaAtivos() {
+    @GetMapping
+    public ResponseEntity<List<ClientePessoaJuridicaResponseDTO>> listarClientes() {
 
         return ResponseEntity.ok(service.listarAtivos());
     }
 
-    @GetMapping("/listar-inativos")
-    public ResponseEntity<List<ClientePessoaJuridicaResponseDTO>> listaPessoaJuridicaInativos() {
+    @GetMapping("/inativos")
+    public ResponseEntity<List<ClientePessoaJuridicaResponseDTO>> listarClientesInativos() {
 
         return ResponseEntity.ok(service.listarInativos());
     }

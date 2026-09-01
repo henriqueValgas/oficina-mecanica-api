@@ -117,6 +117,17 @@ public class FuncionarioService {
         return funcionariosInativos.stream().map(funcionarioMapper::toDto).toList();
     }
 
+    private Funcionario buscarPorId(UUID id) {
+        return repository.findById(id).orElseThrow(
+                () -> new RegistroNaoEncontradoException("Funcionario nâo cadastrado"));
+    }
+
+    private void verificarCpfCadastrado(String cpf) {
+        if (repository.existsByCpf(cpf)) {
+            throw new RegistroDuplicadoException("funcionario ja possui cadastro");
+        }
+    }
+
     private void preencherEnderecoComViaCep(Funcionario funcionario) {
 
         funcionario.getEnderecos().forEach(e -> {
@@ -127,17 +138,6 @@ public class FuncionarioService {
                 enderecoMapper.preencherComViaCep(viaCep, e);
             }
         });
-    }
-
-    private Funcionario buscarPorId(UUID id) {
-        return repository.findById(id).orElseThrow(
-                () -> new RegistroNaoEncontradoException("Funcionario nâo cadastrado"));
-    }
-
-    private void verificarCpfCadastrado(String cpf) {
-        if (repository.existsByCpf(cpf)) {
-            throw new RegistroDuplicadoException("funcionario ja possui cadastro");
-        }
     }
 
     private void atualizarEndereco(Funcionario funcionario, EnderecoUpdateRequestDTO request) {
