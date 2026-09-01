@@ -1,16 +1,12 @@
 package com.oficinamecanica.oficina_mecanica_api.service;
 
-import com.oficinamecanica.oficina_mecanica_api.builder.PessoaBuilder;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.ClientePessoaFisicaCreateRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.ClientePessoaFisicaUpdateRequestDTO;
-import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.TelefoneRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.ClientePessoaFisicaResponseDTO;
 import com.oficinamecanica.oficina_mecanica_api.exceptions.RegistroDuplicadoException;
 import com.oficinamecanica.oficina_mecanica_api.exceptions.RegistroNaoEncontradoException;
 import com.oficinamecanica.oficina_mecanica_api.mapper.ClientePessoaFisicaMapper;
-import com.oficinamecanica.oficina_mecanica_api.model.entity.Endereco;
 import com.oficinamecanica.oficina_mecanica_api.model.entity.ClientePessoaFisica;
-import com.oficinamecanica.oficina_mecanica_api.model.entity.Telefone;
 import com.oficinamecanica.oficina_mecanica_api.repository.ClientePessoaFisicaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,9 +19,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ClientePessoaFisicaService {
 
-    private final PessoaBuilder pessoaBuilder;
     private final ClientePessoaFisicaRepository repository;
     private final ClientePessoaFisicaMapper clientePessoaFisicaMapper;
+    private final EnderecoService enderecoService;
+    private final TelefoneService telefoneService;
 
     @Transactional
     public ClientePessoaFisicaResponseDTO salvar(ClientePessoaFisicaCreateRequestDTO request) {
@@ -34,11 +31,11 @@ public class ClientePessoaFisicaService {
 
         verificarCpfCadastrado(clientePessoaFisica.getCpf());
 
-        List<Endereco> enderecos = pessoaBuilder.buildEnderecos(request.enderecos());
-        enderecos.forEach(clientePessoaFisica::addEndereco);
+        enderecoService.preencherEnderecoComViaCep(clientePessoaFisica);
 
-        List<Telefone> telefones = pessoaBuilder.buildTelefones(request.telefones());
-        telefones.forEach(clientePessoaFisica::addTelefone);
+        clientePessoaFisica.getEnderecos().forEach(e -> e.setPessoa(clientePessoaFisica));
+
+        clientePessoaFisica.getTelefones().forEach(t -> t.setPessoa(clientePessoaFisica));
 
         repository.save(clientePessoaFisica);
 
@@ -52,23 +49,10 @@ public class ClientePessoaFisicaService {
 
         clientePessoaFisicaMapper.toUpdate(request, clientePessoaFisica);
 
-        if (request.endereco() != null) {
-            pessoaBuilder.updateEndereco(request.endereco(), clientePessoaFisica.getEnderecos());
-        }
+        enderecoService.atualizarEndereco(clientePessoaFisica, request.enderecos());
 
-        if (request.telefones() != null) {
-            clientePessoaFisica.getTelefones().clear();
+        telefoneService.atualizarTelefones(clientePessoaFisica, request.telefones());
 
-            for (TelefoneRequestDTO telefoneRequestDTO : request.telefones()) {
-                Telefone telefone = new Telefone();
-
-                telefone.setNumero(telefoneRequestDTO.numero());
-                telefone.setTipo(telefoneRequestDTO.tipo());
-                telefone.setPessoa(clientePessoaFisica);
-
-                clientePessoaFisica.getTelefones().add(telefone);
-            }
-        }
         repository.save(clientePessoaFisica);
 
         return clientePessoaFisicaMapper.toDTO(clientePessoaFisica);

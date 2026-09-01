@@ -8,8 +8,8 @@ public record ClientePessoaFisicaUpdateRequestDTO(
 
         String email,
 
-        List<TelefoneRequestDTO> telefones,
+        List<TelefoneUpdateRequestDTO> telefones,
 
-        EnderecoUpdateRequestDTO endereco
+        EnderecoUpdateRequestDTO enderecos
 ) {
 }
