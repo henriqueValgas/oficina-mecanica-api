@@ -1,16 +1,13 @@
 package com.oficinamecanica.oficina_mecanica_api.service;
 
-import com.oficinamecanica.oficina_mecanica_api.builder.PessoaBuilder;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.ClientePessoaJuridicaCreateRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.ClientePessoaJuridicaUpdateRequestDTO;
-import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.TelefoneRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.ClientePessoaJuridicaResponseDTO;
+import com.oficinamecanica.oficina_mecanica_api.exceptions.OperacaoInvalidaException;
 import com.oficinamecanica.oficina_mecanica_api.exceptions.RegistroDuplicadoException;
 import com.oficinamecanica.oficina_mecanica_api.exceptions.RegistroNaoEncontradoException;
 import com.oficinamecanica.oficina_mecanica_api.mapper.ClientePessoaJuridicaMapper;
 import com.oficinamecanica.oficina_mecanica_api.model.entity.ClientePessoaJuridica;
-import com.oficinamecanica.oficina_mecanica_api.model.entity.Endereco;
-import com.oficinamecanica.oficina_mecanica_api.model.entity.Telefone;
 import com.oficinamecanica.oficina_mecanica_api.repository.ClientePessoaJuridicaRepository;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.br.CNPJ;
@@ -24,9 +21,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ClientePessoaJuridicaService {
 
-    private final PessoaBuilder pessoaBuilder;
     private final ClientePessoaJuridicaRepository repository;
     private final ClientePessoaJuridicaMapper mapperPessoaJuridica;
+    private final EnderecoService enderecoService;
+    private final TelefoneService telefoneService;
 
     @Transactional
     public ClientePessoaJuridicaResponseDTO salvar(ClientePessoaJuridicaCreateRequestDTO request) {
@@ -35,15 +33,11 @@ public class ClientePessoaJuridicaService {
 
         verificarCnpjCadastrado(clientePessoaJuridica.getCnpj());
 
-        List<Endereco> enderecos = pessoaBuilder.buildEnderecos(request.enderecos());
+        enderecoService.preencherEnderecoComViaCep(clientePessoaJuridica);
 
-        enderecos.forEach(clientePessoaJuridica::addEndereco);
+        clientePessoaJuridica.getEnderecos().forEach(e -> e.setPessoa(clientePessoaJuridica));
 
-        List<Telefone> telefones = pessoaBuilder.buildTelefones(request.telefones());
-
-        telefones.forEach(clientePessoaJuridica::addTelefone);
-
-        repository.save(clientePessoaJuridica);
+        clientePessoaJuridica.getTelefones().forEach(t -> t.setPessoa(clientePessoaJuridica));
 
         return mapperPessoaJuridica.toDTO(clientePessoaJuridica);
     }
@@ -55,35 +49,29 @@ public class ClientePessoaJuridicaService {
 
         mapperPessoaJuridica.toUpdate(request, clientePessoaJuridica);
 
-        if (request.endereco() != null) {
-            pessoaBuilder.updateEndereco(request.endereco(), clientePessoaJuridica.getEnderecos());
-        }
+        enderecoService.atualizarEndereco(clientePessoaJuridica, request.enderecos());
 
-        if (request.telefones() != null) {
-            clientePessoaJuridica.getTelefones().clear();
-
-            for (TelefoneRequestDTO telefoneRequestDTO : request.telefones()) {
-                Telefone telefone = new Telefone();
-
-                telefone.setNumero(telefoneRequestDTO.numero());
-                telefone.setTipo(telefoneRequestDTO.tipo());
-
-                telefone.setPessoa(clientePessoaJuridica);
-
-                clientePessoaJuridica.getTelefones().add(telefone);
-            }
-        }
-        repository.save(clientePessoaJuridica);
+        telefoneService.atualizarTelefones(clientePessoaJuridica, request.telefones());
 
         return mapperPessoaJuridica.toDTO(clientePessoaJuridica);
     }
 
     @Transactional
     public void inativar(UUID id) {
-
         ClientePessoaJuridica clientePessoaJuridica = buscarPorId(id);
-
+        if (!clientePessoaJuridica.isAtivo()) {
+            throw new OperacaoInvalidaException("Cliente esta inativado");
+        }
         clientePessoaJuridica.setAtivo(false);
+    }
+
+    @Transactional
+    public void reativar(UUID id) {
+        ClientePessoaJuridica clientePessoaJuridica = buscarPorId(id);
+        if (clientePessoaJuridica.isAtivo()) {
+            throw new OperacaoInvalidaException("Cliente esta ativo");
+        }
+        clientePessoaJuridica.setAtivo(true);
     }
 
     @Transactional(readOnly = true)
@@ -110,7 +98,7 @@ public class ClientePessoaJuridicaService {
         return mapperPessoaJuridica.toDTO(clientePessoaJuridica);
     }
 
-    private void verificarCnpjCadastrado(String cnpj){
+    private void verificarCnpjCadastrado(String cnpj) {
         if (repository.existsByCnpj(cnpj)) {
             throw new RegistroDuplicadoException("Cliente ja possui cadastro");
         }
@@ -122,7 +110,7 @@ public class ClientePessoaJuridicaService {
     }
 
     private ClientePessoaJuridica buscarPorCnpjAtivo(String cnpj) {
-         return repository.findByCnpjAndAtivoTrue(cnpj)
-                 .orElseThrow(() -> new RegistroNaoEncontradoException("Cliente não encontrado"));
+        return repository.findByCnpjAndAtivoTrue(cnpj)
+                .orElseThrow(() -> new RegistroNaoEncontradoException("Cliente não encontrado"));
     }
 }

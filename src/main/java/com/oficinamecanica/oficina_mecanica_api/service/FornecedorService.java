@@ -2,6 +2,7 @@ package com.oficinamecanica.oficina_mecanica_api.service;
 
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.FornecedorRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.FornecedorResponseDTO;
+import com.oficinamecanica.oficina_mecanica_api.exceptions.OperacaoInvalidaException;
 import com.oficinamecanica.oficina_mecanica_api.exceptions.RegistroNaoEncontradoException;
 import com.oficinamecanica.oficina_mecanica_api.mapper.FornecedorMapper;
 import com.oficinamecanica.oficina_mecanica_api.model.entity.Fornecedor;
@@ -26,8 +27,6 @@ public class FornecedorService {
 
         Fornecedor fornecedor = mapper.toEntity(request);
 
-        repository.save(fornecedor);
-
         return mapper.toDTO(fornecedor);
     }
 
@@ -38,18 +37,25 @@ public class FornecedorService {
 
         mapper.toUpdate(request, fornecedor);
 
-        repository.save(fornecedor);
-
         return mapper.toDTO(fornecedor);
     }
 
-
     @Transactional
     public void inativar(UUID id) {
-
         Fornecedor fornecedor = buscarPorIdAtivo(id);
+        if (!fornecedor.isAtivo()) {
+            throw new OperacaoInvalidaException("Fornecedor inativado");
+        }
+        fornecedor.setAtivo(false);
+    }
 
-       fornecedor.setAtivo(false);
+    @Transactional
+    public void reativar(UUID id) {
+        Fornecedor fornecedor = buscarPorId(id);
+        if (fornecedor.isAtivo()) {
+            throw new OperacaoInvalidaException("Fornecedor ativo");
+        }
+        fornecedor.setAtivo(false);
     }
 
     @Transactional(readOnly = true)
@@ -61,7 +67,7 @@ public class FornecedorService {
     }
 
     @Transactional(readOnly = true)
-    public List<FornecedorResponseDTO> listarInativos(){
+    public List<FornecedorResponseDTO> listarInativos() {
 
         List<Fornecedor> listarInativos = repository.findAllByAtivoFalse();
 
@@ -72,13 +78,11 @@ public class FornecedorService {
 
         return repository.findById(id)
                 .orElseThrow(() -> new RegistroNaoEncontradoException("Fornecedor não encontrado"));
-
     }
 
-    private Fornecedor buscarPorIdAtivo(UUID id){
+    private Fornecedor buscarPorIdAtivo(UUID id) {
 
         return repository.findByIdAndAtivoTrue(id)
-                .orElseThrow(()-> new RegistroNaoEncontradoException("Fornecedor não encontrado"));
+                .orElseThrow(() -> new RegistroNaoEncontradoException("Fornecedor não encontrado"));
     }
-
 }

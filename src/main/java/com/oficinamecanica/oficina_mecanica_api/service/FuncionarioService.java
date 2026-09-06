@@ -39,8 +39,6 @@ public class FuncionarioService {
 
         funcionario.getTelefones().forEach(t -> t.setPessoa(funcionario));
 
-        repository.save(funcionario);
-
         return funcionarioMapper.toDto(funcionario);
     }
 
@@ -119,4 +117,3 @@ public class FuncionarioService {
         }
     }
 }
-

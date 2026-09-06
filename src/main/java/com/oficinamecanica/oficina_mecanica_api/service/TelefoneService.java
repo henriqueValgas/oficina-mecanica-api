@@ -24,14 +24,14 @@ public class TelefoneService {
         }
 
         requests.forEach(request -> {
-                    Telefone telefone = pessoa.getTelefones()
-                            .stream()
-                            .filter(t -> t.getId().equals(request.id()))
-                            .findFirst()
-                            .orElseThrow(() -> new RegistroNaoEncontradoException("Telefone não encontrado"));
+                Telefone telefone = pessoa.getTelefones()
+                        .stream()
+                        .filter(t -> t.getId().equals(request.id()))
+                        .findFirst()
+                        .orElseThrow(() -> new RegistroNaoEncontradoException("Telefone não encontrado"));
 
-                    telefoneMapper.toUpdate(request, telefone);
-                }
+                telefoneMapper.toUpdate(request, telefone);
+            }
         );
     }
 }

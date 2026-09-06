@@ -3,6 +3,7 @@ package com.oficinamecanica.oficina_mecanica_api.service;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.ClientePessoaFisicaCreateRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.ClientePessoaFisicaUpdateRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.ClientePessoaFisicaResponseDTO;
+import com.oficinamecanica.oficina_mecanica_api.exceptions.OperacaoInvalidaException;
 import com.oficinamecanica.oficina_mecanica_api.exceptions.RegistroDuplicadoException;
 import com.oficinamecanica.oficina_mecanica_api.exceptions.RegistroNaoEncontradoException;
 import com.oficinamecanica.oficina_mecanica_api.mapper.ClientePessoaFisicaMapper;
@@ -37,8 +38,6 @@ public class ClientePessoaFisicaService {
 
         clientePessoaFisica.getTelefones().forEach(t -> t.setPessoa(clientePessoaFisica));
 
-        repository.save(clientePessoaFisica);
-
         return clientePessoaFisicaMapper.toDTO(clientePessoaFisica);
     }
 
@@ -53,17 +52,25 @@ public class ClientePessoaFisicaService {
 
         telefoneService.atualizarTelefones(clientePessoaFisica, request.telefones());
 
-        repository.save(clientePessoaFisica);
-
         return clientePessoaFisicaMapper.toDTO(clientePessoaFisica);
     }
 
     @Transactional
     public void inativar(UUID id) {
-
         ClientePessoaFisica clientePessoaFisica = buscarPorId(id);
-
+        if (!clientePessoaFisica.isAtivo()) {
+            throw new OperacaoInvalidaException("Cliente esta inativado");
+        }
         clientePessoaFisica.setAtivo(false);
+    }
+
+    @Transactional
+    public void reativar(UUID id) {
+        ClientePessoaFisica clientePessoaFisica = buscarPorId(id);
+        if (clientePessoaFisica.isAtivo()) {
+            throw new OperacaoInvalidaException("Cliente esta ativo");
+        }
+        clientePessoaFisica.setAtivo(true);
     }
 
     @Transactional(readOnly = true)

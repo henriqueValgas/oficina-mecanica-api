@@ -33,7 +33,7 @@ public class FornecedorController implements ControllerUriSupport {
     @PatchMapping("/{id}")
     public ResponseEntity<FornecedorResponseDTO> atualizar(
             @PathVariable UUID id,
-            @RequestBody FornecedorRequestDTO request) {
+            @Valid @RequestBody FornecedorRequestDTO request) {
 
         FornecedorResponseDTO response = service.atualizar(id, request);
 
@@ -44,6 +44,14 @@ public class FornecedorController implements ControllerUriSupport {
     public ResponseEntity<Void> inativar(@PathVariable UUID id) {
 
         service.inativar(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/reativar")
+    public ResponseEntity<Void> reativar(@PathVariable UUID id) {
+
+        service.reativar(id);
 
         return ResponseEntity.noContent().build();
     }

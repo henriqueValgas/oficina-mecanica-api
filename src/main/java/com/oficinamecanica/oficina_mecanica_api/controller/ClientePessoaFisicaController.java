@@ -47,6 +47,15 @@ public class ClientePessoaFisicaController implements ControllerUriSupport {
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping("/{id}/reativar")
+    public ResponseEntity<Void> reativar(@PathVariable UUID id) {
+
+        service.reativar(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+
     @PostMapping("/cpf")
     public ResponseEntity<ClientePessoaFisicaResponseDTO> buscarPorCpf(@Valid @RequestBody BuscaPessoaFisicaPorCpfRequestDTO request) {
 

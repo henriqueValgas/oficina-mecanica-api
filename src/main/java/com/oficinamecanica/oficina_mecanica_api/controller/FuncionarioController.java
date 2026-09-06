@@ -21,7 +21,7 @@ public class FuncionarioController implements ControllerUriSupport {
     private final FuncionarioService service;
 
     @PostMapping
-    public ResponseEntity<FuncionarioResponseDTO> salvar(@RequestBody @Valid FuncionarioCreateRequestDTO request) {
+    public ResponseEntity<FuncionarioResponseDTO> salvar(@Valid @RequestBody FuncionarioCreateRequestDTO request) {
 
         FuncionarioResponseDTO response = service.salvar(request);
 
@@ -33,7 +33,7 @@ public class FuncionarioController implements ControllerUriSupport {
     @PatchMapping("/{id}")
     public ResponseEntity<FuncionarioResponseDTO> atualizar(
             @PathVariable UUID id,
-            @RequestBody @Valid FuncionarioUpdateRequestDTO request) {
+            @Valid @RequestBody FuncionarioUpdateRequestDTO request) {
 
         return ResponseEntity.ok(service.atualizar(id, request));
     }
