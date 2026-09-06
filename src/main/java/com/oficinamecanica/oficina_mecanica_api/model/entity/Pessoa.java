@@ -35,6 +35,7 @@ public abstract class Pessoa extends Auditable {
 
     @Column(nullable = false)
     private boolean ativo = true;
+
     public void addEndereco(Endereco endereco){
         enderecos.add(endereco);
         endereco.setPessoa(this);

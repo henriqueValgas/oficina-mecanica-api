@@ -36,9 +36,9 @@ public class Peca extends Auditable {
     @Column(name = "valor_venda", nullable = false, scale = 2)
     private BigDecimal valorVenda;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "marca_id", nullable = false)
-    private Marca marca;
+    private Modelo marca;
 
     @Column(nullable = false)
     private boolean ativo;
