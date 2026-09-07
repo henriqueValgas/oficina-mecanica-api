@@ -8,6 +8,7 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Entity
+@Table(name = "modelo")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,7 +19,7 @@ public class Modelo {
 
     private String nome;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "marca_id", nullable = false)
     private Marca marca;
 

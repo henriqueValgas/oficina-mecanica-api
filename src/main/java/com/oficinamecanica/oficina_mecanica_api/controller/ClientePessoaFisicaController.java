@@ -55,7 +55,6 @@ public class ClientePessoaFisicaController implements ControllerUriSupport {
         return ResponseEntity.noContent().build();
     }
 
-
     @PostMapping("/cpf")
     public ResponseEntity<ClientePessoaFisicaResponseDTO> buscarPorCpf(@Valid @RequestBody BuscaPessoaFisicaPorCpfRequestDTO request) {
 

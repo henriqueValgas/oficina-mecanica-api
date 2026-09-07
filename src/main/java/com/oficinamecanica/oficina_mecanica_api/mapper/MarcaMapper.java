@@ -7,7 +7,7 @@ import com.oficinamecanica.oficina_mecanica_api.model.entity.Marca;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface MarcaMapper {
 
     Marca toEntity(MarcaCreateRequestDTO requestDTO);
