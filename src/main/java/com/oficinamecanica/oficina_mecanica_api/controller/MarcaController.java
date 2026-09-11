@@ -52,18 +52,18 @@ public class MarcaController implements ControllerUriSupport {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping()
+    @GetMapping("/nome")
     public ResponseEntity<MarcaResponseDTO> buscarPorNome(@RequestParam String nome){
 
         return ResponseEntity.ok().body(marcaService.buscarPorNome(nome));
     }
-    @GetMapping("/inativa")
+    @GetMapping("/nome/inativa")
     public ResponseEntity<MarcaResponseDTO> buscarPorNomeInativo(@RequestParam String nome){
 
         return ResponseEntity.ok().body(marcaService.buscarPorNomeInativo(nome));
     }
 
-    @GetMapping("/ativas")
+    @GetMapping
     public ResponseEntity<List<MarcaResponseDTO>> listarMarcas(){
 
         return ResponseEntity.ok(marcaService.listarAtivas());
