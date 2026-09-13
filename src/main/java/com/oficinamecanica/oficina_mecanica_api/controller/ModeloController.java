@@ -62,6 +62,4 @@ public class ModeloController implements ControllerUriSupport {
 
         return ResponseEntity.ok().body(modeloService.listarInativos());
     }
-
-
 }

@@ -119,7 +119,7 @@ CREATE TABLE veiculo (
     id uuid PRIMARY KEY,
     placa VARCHAR(7) NOT NULL UNIQUE,
     chassi VARCHAR(30) NOT NULL UNIQUE,
-    renavam VARCHAR(20) NOT NULL UNIQUE,
+    renavan VARCHAR(20) NOT NULL UNIQUE,
     ano_fabricacao INTEGER NOT NULL,
     ano_modelo INTEGER NOT NULL,
     quilometragem BIGINT NOT NULL,

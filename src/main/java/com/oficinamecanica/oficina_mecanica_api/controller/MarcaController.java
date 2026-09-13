@@ -64,13 +64,13 @@ public class MarcaController implements ControllerUriSupport {
     }
 
     @GetMapping
-    public ResponseEntity<List<MarcaResponseDTO>> listarMarcas(){
+    public ResponseEntity<List<MarcaResponseDTO>> listar(){
 
         return ResponseEntity.ok(marcaService.listarAtivas());
     }
 
     @GetMapping("/inativas")
-    public ResponseEntity<List<MarcaResponseDTO>> listarMarcasInativas(){
+    public ResponseEntity<List<MarcaResponseDTO>> listarInativas(){
 
         return ResponseEntity.ok(marcaService.listarInativas());
     }

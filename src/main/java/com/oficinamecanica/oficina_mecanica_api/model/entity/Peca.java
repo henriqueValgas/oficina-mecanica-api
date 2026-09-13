@@ -19,6 +19,7 @@ import java.util.UUID;
 public class Peca extends Auditable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "nome", nullable = false)
