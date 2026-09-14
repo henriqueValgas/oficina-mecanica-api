@@ -3,7 +3,6 @@ package com.oficinamecanica.oficina_mecanica_api.controller;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.VeiculoCreateRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.VeiculoUpdateRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.VeiculoResponseDTO;
-import com.oficinamecanica.oficina_mecanica_api.model.entity.Veiculo;
 import com.oficinamecanica.oficina_mecanica_api.service.VeiculoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -57,17 +56,13 @@ public class VeiculoController implements ControllerUriSupport{
     @GetMapping
     public ResponseEntity<List<VeiculoResponseDTO>> listar() {
 
-        veiculoService.listar();
-
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(veiculoService.listar());
     }
 
     @GetMapping("/inativos")
     public ResponseEntity<List<VeiculoResponseDTO>> listarInativos() {
 
-        veiculoService.listarInativos();
-
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(veiculoService.listarInativos());
     }
 
 }
