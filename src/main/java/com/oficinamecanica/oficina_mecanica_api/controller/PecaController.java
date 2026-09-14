@@ -3,7 +3,6 @@ package com.oficinamecanica.oficina_mecanica_api.controller;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.PecaCreateRequestDto;
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.PecaUpdateRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.PecaResponseDTO;
-import com.oficinamecanica.oficina_mecanica_api.model.entity.Peca;
 import com.oficinamecanica.oficina_mecanica_api.service.PecaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -56,16 +55,13 @@ public class PecaController implements ControllerUriSupport {
     @GetMapping
     public ResponseEntity<List<PecaResponseDTO>> listar(){
 
-        pecaService.listar();
-
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(pecaService.listar());
     }
 
     @GetMapping("/inativas")
     public ResponseEntity<List<PecaResponseDTO>> listarInativas(){
-        pecaService.listarInativas();
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(pecaService.listarInativas());
     }
 
 }

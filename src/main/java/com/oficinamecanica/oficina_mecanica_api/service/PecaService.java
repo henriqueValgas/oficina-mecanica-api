@@ -8,10 +8,11 @@ import com.oficinamecanica.oficina_mecanica_api.exceptions.RegistroNaoEncontrado
 import com.oficinamecanica.oficina_mecanica_api.mapper.PecaMapper;
 import com.oficinamecanica.oficina_mecanica_api.model.entity.Peca;
 import com.oficinamecanica.oficina_mecanica_api.repository.PecaRepository;
-import jakarta.transaction.Transactional;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 
@@ -49,6 +50,7 @@ public class PecaService {
         if (!peca.isAtivo()){
             throw new OperacaoInvalidaException("Peça está inativada");
         }
+        peca.setAtivo(false);
     }
 
     @Transactional
@@ -57,6 +59,22 @@ public class PecaService {
         if (peca.isAtivo()){
             throw new OperacaoInvalidaException("Peça está ativa");
         }
+        peca.setAtivo(true);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PecaResponseDTO> listar() {
+
+        List<Peca> pecas = pecaRepository.findAllByAtivoTrue();
+
+        return  pecas.stream().map(pecaMapper::toDTO).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<PecaResponseDTO> listarInativas() {
+        List<Peca> pecasInativas =  pecaRepository.findAllByAtivoFalse();
+
+        return  pecasInativas.stream().map(pecaMapper::toDTO).toList();
     }
 
     private Peca buscarPorId(UUID id) {
@@ -64,19 +82,5 @@ public class PecaService {
         return pecaRepository
                 .findByIdAndAtivoTrue(id)
                 .orElseThrow(()->new RegistroNaoEncontradoException("Peca não encontrada"));
-    }
-
-    @GetMapping
-    public List<PecaResponseDTO> listar() {
-        List<Peca> pecas = pecaRepository.findAllByAtivoTrue();
-
-        return  pecas.stream().map(pecaMapper::toDTO).toList();
-    }
-
-    @GetMapping("/inativas")
-    public List<PecaResponseDTO> listarInativas() {
-        List<Peca> pecasInativas =  pecaRepository.findAllByAtivoFalse();
-
-        return  pecasInativas.stream().map(pecaMapper::toDTO).toList();
     }
 }

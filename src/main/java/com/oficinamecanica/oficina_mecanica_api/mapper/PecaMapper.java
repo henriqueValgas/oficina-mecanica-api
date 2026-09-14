@@ -4,15 +4,17 @@ import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.PecaCreate
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.PecaUpdateRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.PecaResponseDTO;
 import com.oficinamecanica.oficina_mecanica_api.model.entity.Peca;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface PecaMapper {
 
     Peca toEntity(PecaCreateRequestDto requestDto);
 
-    Peca toUpdate(PecaUpdateRequestDTO request, @MappingTarget Peca entity);
+    @BeanMapping(
+            nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "id",ignore = true)
+    void toUpdate(PecaUpdateRequestDTO request, @MappingTarget Peca entity);
 
     PecaResponseDTO toDTO(Peca entity);
 }

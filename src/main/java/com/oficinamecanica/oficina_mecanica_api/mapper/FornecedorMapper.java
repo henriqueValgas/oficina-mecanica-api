@@ -11,7 +11,7 @@ public interface FornecedorMapper {
 
     Fornecedor toEntity(FornecedorRequestDTO request);
 
-    Fornecedor toUpdate(FornecedorRequestDTO request, @MappingTarget Fornecedor entity);
+    void toUpdate(FornecedorRequestDTO request, @MappingTarget Fornecedor entity);
 
     FornecedorResponseDTO toDTO(Fornecedor entity);
 }
