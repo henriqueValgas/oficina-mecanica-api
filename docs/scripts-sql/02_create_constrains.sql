@@ -91,7 +91,13 @@ FOREIGN KEY (veiculo_id)
 REFERENCES veiculo(id),
 ADD CONSTRAINT fk_ordem_servico_funcionario
 FOREIGN KEY (funcionario_id)
-REFERENCES funcionario(id);
+REFERENCES funcionario(id),
+ADD CONSTRAINT fk_ordem_servico_item_peca
+FOREIGN KEY (item_peca_id)
+REFERENCES item_peca(id),
+ADD CONSTRAINT fk_ordem_servico_item_servico
+FOREIGN KEY (item_servico_id)
+REFERENCES item_servico(id);
 
 /**
  adicionando unique constraint

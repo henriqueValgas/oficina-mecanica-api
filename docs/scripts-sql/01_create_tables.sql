@@ -190,6 +190,8 @@ CREATE TABLE ordem_servico (
     veiculo_id uuid NOT NULL,
     pessoa_id uuid NOT NULL,
     funcionario_id uuid NOT NULL,
+    item_peca_id uuid NOT NULL,
+    item_servico_id uuid NOT NULL,
     ativo BOOLEAN NOT NULL DEFAULT TRUE,
     created_by uuid,
     created_at TIMESTAMP,
