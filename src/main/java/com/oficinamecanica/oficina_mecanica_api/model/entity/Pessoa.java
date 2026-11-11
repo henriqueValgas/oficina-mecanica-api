@@ -20,7 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public abstract class Pessoa extends Auditable {
 
-    @Id
+
     @GeneratedValue(strategy =GenerationType.UUID)
     private UUID id;
 
