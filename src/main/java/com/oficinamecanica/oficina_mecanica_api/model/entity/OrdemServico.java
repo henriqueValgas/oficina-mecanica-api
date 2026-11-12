@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -63,24 +65,22 @@ public class OrdemServico extends Auditable {
     @Column(name = "ativo")
     private boolean ativo;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "funcionario_id")
     private Funcionario funcionario;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pessoa_id")
     private Pessoa pessoa;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "veiculo_id")
     private Veiculo veiculo;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_peca_id")
-    private ItemPeca  itemPeca;
+    @OneToMany(mappedBy = "ordemServico",fetch = FetchType.LAZY)
+    private List<ItemPeca> itemPeca = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_pervico_id")
-    private ItemServico  itemServico;
+    @OneToMany(mappedBy = "ordemServico",fetch = FetchType.LAZY)
+    private List<ItemServico> itemServico = new  ArrayList<>();
 
 }

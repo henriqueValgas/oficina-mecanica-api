@@ -82,6 +82,19 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(DocumentoInvalidoException.class)
+    public ResponseEntity<ErroResponse> tratarErroDucumentoInvalidoException(
+            DocumentoInvalidoException ex, HttpServletRequest request
+    )
+    {
+        return criaRespostaErro(
+                HttpStatus.CONFLICT,
+                "Documento invalido",
+                ex.getMessage(),
+                request
+        );
+    }
+
     private ResponseEntity<ErroResponse> criaRespostaErro(
             HttpStatus status,
             String erro,

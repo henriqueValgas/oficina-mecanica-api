@@ -42,8 +42,8 @@ public class ItemPeca extends Auditable {
     @JoinColumn(name = "peca_id")
     private Peca peca;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ordem_servico_id")
     private OrdemServico ordemServico;
-
 
 }

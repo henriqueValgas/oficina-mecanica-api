@@ -2,7 +2,9 @@ package com.oficinamecanica.oficina_mecanica_api.service;
 
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.OrdemServicoRequestDTO;
 import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.OrdemServicoResponseDTO;
+import com.oficinamecanica.oficina_mecanica_api.mapper.OrdemServicoMapper;
 import com.oficinamecanica.oficina_mecanica_api.model.entity.OrdemServico;
+import com.oficinamecanica.oficina_mecanica_api.model.entity.Pessoa;
 import com.oficinamecanica.oficina_mecanica_api.repository.OrdemServicoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,12 @@ public class OrdemServicoService {
 
     private final PecaService pecaService;
 
-    public OrdemServicoResponseDTO salvarOrdemServico(OrdemServicoRequestDTO request) {
+    private final OrdemServicoMapper ordemServicoMapper;
+
+    public OrdemServicoResponseDTO salvar(OrdemServicoRequestDTO request) {
+
+        OrdemServico ordemServico = ordemServicoMapper.toEntity(request);
+
 
         return null;
     }

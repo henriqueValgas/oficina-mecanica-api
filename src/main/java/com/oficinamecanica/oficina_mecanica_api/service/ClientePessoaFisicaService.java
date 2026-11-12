@@ -95,6 +95,11 @@ public class ClientePessoaFisicaService {
         return clientePessoaFisicaMapper.toDTO(clientePessoaFisica);
     }
 
+    @Transactional(readOnly = true)
+    public ClientePessoaFisica buscarEntidadePorCpf(String cpf) {
+        return buscarPorCpfAtivo(cpf);
+    }
+
     private void verificarCpfCadastrado(String cpf) {
         if (repository.existsByCpf(cpf)) {
             throw new RegistroDuplicadoException("Cpf ja cadastrado");

@@ -91,11 +91,16 @@ public class ClientePessoaJuridicaService {
     }
 
     @Transactional
-    public ClientePessoaJuridicaResponseDTO buscarPorCnpj(@CNPJ String cnpj) {
+    public ClientePessoaJuridicaResponseDTO buscarPorCnpj(String cnpj) {
 
         ClientePessoaJuridica clientePessoaJuridica = buscarPorCnpjAtivo(cnpj);
 
         return mapperPessoaJuridica.toDTO(clientePessoaJuridica);
+    }
+
+    @Transactional(readOnly = true)
+    public ClientePessoaJuridica buscarEntidaePorCnpj(String cnpj) {
+        return buscarPorCnpjAtivo(cnpj);
     }
 
     private void verificarCnpjCadastrado(String cnpj) {
