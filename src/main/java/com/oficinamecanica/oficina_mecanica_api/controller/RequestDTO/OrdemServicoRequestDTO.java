@@ -4,7 +4,9 @@ public record OrdemServicoRequestDTO(
         String cpfCnpj,
         String placa,
         int quilometragemEntrada,
-        String defeitoRelatado
+        String defeitoRelatado,
+        String matricula,
+        String observacoes
 
 ) {
 }

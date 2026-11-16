@@ -4,6 +4,7 @@ import com.oficinamecanica.oficina_mecanica_api.model.entity.Veiculo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface VeiculoRepository extends JpaRepository<Veiculo, UUID> {
@@ -12,4 +13,6 @@ public interface VeiculoRepository extends JpaRepository<Veiculo, UUID> {
     List<Veiculo> findAllByAtivoTrue();
 
     List<Veiculo> findAllByAtivoFalse();
+
+    Optional<Veiculo> findByPlaca(String placa);
 }

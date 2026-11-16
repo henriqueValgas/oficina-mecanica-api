@@ -79,6 +79,14 @@ public class VeiculoService {
         return veiculos.stream().map(veiculoMapper::toDTO).toList();
     }
 
+    @Transactional
+    public Veiculo buscarPorPlaca(String placa) {
+
+        return veiculoRepository.findByPlaca(placa)
+                .orElseThrow(()-> new RegistroNaoEncontradoException("Veiculo não encontrado"));
+
+    }
+
     private Veiculo buscarPorId(UUID id) {
         return veiculoRepository
                 .findById(id)

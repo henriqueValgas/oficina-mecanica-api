@@ -83,6 +83,13 @@ public class FuncionarioService {
         return funcionarioMapper.toDto(funcionario);
     }
 
+    @Transactional
+    public Funcionario buscarEntidadePorMatricula(String matricula) {
+
+         return repository.findByMatriculaAndAtivoTrue(matricula)
+                .orElseThrow(()-> new RegistroNaoEncontradoException("Funcionario não encontrado"));
+    }
+
     @Transactional(readOnly = true)
     public FuncionarioResponseDTO buscarPorMatriculaInativa(String matricula) {
 

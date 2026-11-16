@@ -1,6 +1,7 @@
 package com.oficinamecanica.oficina_mecanica_api.mapper;
 
 import com.oficinamecanica.oficina_mecanica_api.controller.RequestDTO.OrdemServicoRequestDTO;
+import com.oficinamecanica.oficina_mecanica_api.controller.ResponseDTO.OrdemServicoResponseDTO;
 import com.oficinamecanica.oficina_mecanica_api.model.entity.OrdemServico;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -24,5 +25,5 @@ public interface OrdemServicoMapper {
     @Mapping(target = "itemServico", ignore = true)
     OrdemServico toUpdate(OrdemServicoRequestDTO request, @MappingTarget OrdemServico entity);
 
-    OrdemServicoRequestDTO toDto(OrdemServico entity);
+    OrdemServicoResponseDTO toDto(OrdemServico entity);
 }

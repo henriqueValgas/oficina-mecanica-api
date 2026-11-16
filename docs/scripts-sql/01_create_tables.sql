@@ -198,3 +198,7 @@ CREATE TABLE ordem_servico (
     updated_by uuid,
     updated_at TIMESTAMP
 );
+
+CREATE SEQUENCE IF NOT EXISTS ordem_servico_seq
+START WITH 1
+INCREMENT BY 1;
