@@ -77,10 +77,11 @@ public class PecaService {
         return  pecasInativas.stream().map(pecaMapper::toDTO).toList();
     }
 
-    private Peca buscarPorId(UUID id) {
+    @Transactional(readOnly = true)
+    public Peca buscarPorId(UUID id) {
 
         return pecaRepository
                 .findByIdAndAtivoTrue(id)
-                .orElseThrow(()->new RegistroNaoEncontradoException("Peca não encontrada"));
+                .orElseThrow(() -> new RegistroNaoEncontradoException("Peca não encontrada"));
     }
 }

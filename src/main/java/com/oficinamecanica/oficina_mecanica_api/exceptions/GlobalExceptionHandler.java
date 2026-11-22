@@ -95,6 +95,19 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(DadoInvalidoException.class)
+    public ResponseEntity<ErroResponse> tratarQuantidadeInvalidaException(
+            DadoInvalidoException ex, HttpServletRequest request
+    )
+    {
+        return criaRespostaErro(
+                HttpStatus.BAD_REQUEST,
+                "Quantidade Inválida",
+                ex.getMessage(),
+                request
+        );
+    }
+
     private ResponseEntity<ErroResponse> criaRespostaErro(
             HttpStatus status,
             String erro,
